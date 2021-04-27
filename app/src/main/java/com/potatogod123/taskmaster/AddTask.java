@@ -16,14 +16,20 @@ public class AddTask extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_task);
-        if(counter>0){
-            ((TextView) findViewById(R.id.textViewTotalTask)).setText(String.format(Locale.getDefault(),"Total Task: %d",counter));
-        }
+//        if(counter>0){
+//
+//        }
         Button addTaskButton = findViewById(R.id.addTaskButton);
 
         addTaskButton.setOnClickListener(view->{
             counter++;
             ((TextView) findViewById(R.id.textViewTotalTask)).setText(String.format(Locale.getDefault(),"Total Task: %d",counter));
         });
+    }
+
+    @Override
+    protected  void onResume(){
+        super.onResume();
+        ((TextView) findViewById(R.id.textViewTotalTask)).setText(String.format(Locale.getDefault(),"Total Task: %d",counter));
     }
 }

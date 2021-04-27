@@ -7,4 +7,12 @@
     <string name="my_tasks">My Tasks</string>
     <string name="all_task">All Task</string>
     <string name="filler">filler</string>
+    <string name="sampleText">"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec suscipit orci eget rhoncus fermentum. Fusce bibendum, nisl facilisis fermentum tempus, urna magna dictum sem, in malesuada massa eros cursus leo. Phasellus ut bibendum elit. Suspendisse et commodo dolor, vitae posuere sapien. Sed ut sapien sit amet sem volutpat suscipit. Ut vitae arcu ligula. Nam imperdiet, velit egestas vestibulum tincidunt, lorem nisl euismod ex, a semper diam lacus eu est. Mauris feugiat, lacus vel ullamcorper pretium, enim dui semper ante, a auctor velit orci et nunc. Aliquam in augue iaculis, malesuada tellus vel, imperdiet felis. Nulla et porta lorem, non convallis lacus. "</string>
+    <string name="userTitle">User</string>
+    <string name="userName">Username</string>
+    <string name="save">Save</string>
+    <string name="setting">Setting</string>
+    <string name="task1">Walk The Dog</string>
+    <string name="task2">Eat</string>
+    <string name="task3">Finish Your Coding Project</string>
 </resources>
