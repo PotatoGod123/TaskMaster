@@ -15,4 +15,6 @@
     <string name="task1">Walk The Dog</string>
     <string name="task2">Eat</string>
     <string name="task3">Finish Your Coding Project</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

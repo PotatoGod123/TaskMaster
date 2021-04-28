@@ -89,4 +89,15 @@
         app:layout_constraintEnd_toEndOf="@+id/goToAllTaskButton"
         app:layout_constraintStart_toStartOf="@+id/goToAddFormButton"
         app:layout_constraintTop_toBottomOf="@+id/goToAllTaskButton" />
+
+    <Button
+        android:id="@+id/recycleButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Button"
+        app:layout_constraintBottom_toTopOf="@+id/goToSettingsButton"
+        app:layout_constraintEnd_toEndOf="@+id/goToAllTaskButton"
+        app:layout_constraintStart_toStartOf="@+id/goToAddFormButton"
+        app:layout_constraintTop_toBottomOf="@+id/goToTaskButtonThree" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

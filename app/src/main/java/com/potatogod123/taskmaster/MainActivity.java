@@ -27,6 +27,13 @@ public class MainActivity extends AppCompatActivity {
         Button goToTaskButtonTwo = findViewById(R.id.goToTaskButtonTwo);
         Button goToTaskButtonThree = findViewById(R.id.goToTaskButtonThree);
 
+        Button recyclerButton = findViewById(R.id.recycleButton);
+
+        recyclerButton.setOnClickListener(v -> {
+            Intent intent = new Intent(MainActivity.this, RecyclerViewPractice.class);
+            startActivity(intent);
+        });
+
         goToTaskButtonOne.setOnClickListener(view1 -> {
             String buttonText = goToTaskButtonOne.getText().toString();
             buttonHelper(view1, buttonText);
