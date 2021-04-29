@@ -19,8 +19,11 @@ public class TaskDetail extends AppCompatActivity {
     protected  void onResume(){
         super.onResume();
         Intent intent = getIntent();
-        if(intent.getStringExtra("taskTitle")!=null){
+        if(intent.getStringExtra("taskTitle")!=null && !intent.getStringExtra("taskTitle").equals("")){
             ((TextView) findViewById(R.id.textViewTaskDetailPageTitle)).setText(intent.getStringExtra("taskTitle"));
+            if(intent.getStringExtra("description")!=null){
+                ((TextView) findViewById(R.id.textViewTaskDetailDescription)).setText(intent.getStringExtra("description"));
+            }
         }
 
     }
