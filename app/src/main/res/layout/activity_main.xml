@@ -45,38 +45,8 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toEndOf="@+id/goToAddFormButton"
-        app:layout_constraintTop_toBottomOf="@+id/goToTaskButtonThree" />
-
-    <Button
-        android:id="@+id/goToTaskButtonTwo"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/task2"
-        app:layout_constraintBottom_toTopOf="@+id/goToTaskButtonThree"
-        app:layout_constraintStart_toStartOf="@+id/goToTaskButtonThree"
-        app:layout_constraintTop_toBottomOf="@+id/goToTaskButtonOne" />
-
-    <Button
-        android:id="@+id/goToTaskButtonThree"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="200dp"
-        android:text="@string/task3"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/goToTaskButtonTwo" />
-
-    <Button
-        android:id="@+id/goToTaskButtonOne"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/task1"
-        android:textAlignment="center"
-        app:layout_constraintBottom_toTopOf="@+id/goToTaskButtonTwo"
-        app:layout_constraintStart_toStartOf="@+id/goToTaskButtonTwo"
-        app:layout_constraintTop_toBottomOf="@+id/textViewMainMyTaskTitle" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.89" />
 
     <Button
         android:id="@+id/goToSettingsButton"
@@ -87,17 +57,32 @@
         android:textColor="#4300FF"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="@+id/goToAllTaskButton"
+        app:layout_constraintHorizontal_bias="0.489"
         app:layout_constraintStart_toStartOf="@+id/goToAddFormButton"
-        app:layout_constraintTop_toBottomOf="@+id/goToAllTaskButton" />
+        app:layout_constraintTop_toBottomOf="@+id/goToAllTaskButton"
+        app:layout_constraintVertical_bias="0.252" />
 
     <Button
         android:id="@+id/recycleButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Button"
+        android:text="dev"
         app:layout_constraintBottom_toTopOf="@+id/goToSettingsButton"
         app:layout_constraintEnd_toEndOf="@+id/goToAllTaskButton"
+        app:layout_constraintHorizontal_bias="0.491"
         app:layout_constraintStart_toStartOf="@+id/goToAddFormButton"
-        app:layout_constraintTop_toBottomOf="@+id/goToTaskButtonThree" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.91" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/taskRecyclerViewMain"
+        android:layout_width="206dp"
+        android:layout_height="275dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.497"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textViewMainMyTaskTitle"
+        app:layout_constraintVertical_bias="0.201" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
