@@ -3,6 +3,7 @@ package com.potatogod123.taskmaster;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.room.Room;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -21,12 +22,15 @@ import java.util.Locale;
 public class MainActivity extends AppCompatActivity implements TaskRecycleAdapter.ClickOnTaskButtonAble {
     static TaskRecycleAdapter taskRecycleAdapter;
 
-    public static List<TaskModel> allTask = new ArrayList<>();
+    //set this up as a service so it can use else where with autowire :))))
+    TaskDatabase taskDatabase;
+
+//    public static List<TaskModel> allTask = new ArrayList<>();
 
     static{
-        allTask.add(new TaskModel("Buy a dog","Go and buy a dog, steal one whatever"));
-        allTask.add(new TaskModel("Sell a dog","Go and sell a dog, give it for free whatever"));
-        allTask.add(new TaskModel("Use the Restroom","quick! it's been a long day :("));
+//        allTask.add(new TaskModel("Buy a dog","Go and buy a dog, steal one whatever"));
+//        allTask.add(new TaskModel("Sell a dog","Go and sell a dog, give it for free whatever"));
+//        allTask.add(new TaskModel("Use the Restroom","quick! it's been a long day :("));
     }
 
     @Override
@@ -39,18 +43,15 @@ public class MainActivity extends AppCompatActivity implements TaskRecycleAdapte
         Button goToAllTaskButton = findViewById(R.id.goToAllTaskButton);
         Button goSettingsButton = findViewById(R.id.goToSettingsButton);
 
-        RecyclerView recyclerView = findViewById(R.id.taskRecyclerViewMain);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        taskRecycleAdapter= new TaskRecycleAdapter(this);
 
-        recyclerView.setAdapter(taskRecycleAdapter);
 
-        Button recyclerButton = findViewById(R.id.recycleButton);
 
-        recyclerButton.setOnClickListener(v -> {
-            Intent intent = new Intent(MainActivity.this, RecyclerViewPractice.class);
-            startActivity(intent);
-        });
+//        Button recyclerButton = findViewById(R.id.recycleButton);
+//
+//        recyclerButton.setOnClickListener(v -> {
+//            Intent intent = new Intent(MainActivity.this, RecyclerViewPractice.class);
+//            startActivity(intent);
+//        });
 
 
 
@@ -76,12 +77,23 @@ public class MainActivity extends AppCompatActivity implements TaskRecycleAdapte
     protected  void onResume(){
         super.onResume();
         SharedPreferences pref = getSharedPreferences("userdetails",MODE_PRIVATE);
-
         String username = pref.getString("username",null);
 
         if(username!=null){
             ((TextView) findViewById(R.id.textViewMainMyTaskTitle)).setText(String.format(Locale.getDefault(),"Welcome %s, These are your task:",username));
         }
+
+        taskDatabase= Room.databaseBuilder(getApplicationContext(), TaskDatabase.class,"potatogod123_task")
+                .allowMainThreadQueries()
+                .build();
+
+        List<TaskModel> allTask = taskDatabase.taskModelDao().findAll();
+
+        RecyclerView recyclerView = findViewById(R.id.taskRecyclerViewMain);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        taskRecycleAdapter= new TaskRecycleAdapter(this,allTask,0);
+
+        recyclerView.setAdapter(taskRecycleAdapter);
     }
 
 
