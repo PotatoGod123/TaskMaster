@@ -1,6 +1,13 @@
 package com.potatogod123.taskmaster.models;
 
+import androidx.room.Entity;
+import androidx.room.PrimaryKey;
+
+@Entity
 public class TaskModel {
+    @PrimaryKey(autoGenerate =true)
+    public long id;
+
     private String title;
     private String description;
 

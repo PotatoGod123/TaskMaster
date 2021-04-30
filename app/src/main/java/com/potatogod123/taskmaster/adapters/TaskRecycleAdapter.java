@@ -1,5 +1,6 @@
 package com.potatogod123.taskmaster.adapters;
 
+import android.graphics.Color;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,20 +12,33 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.potatogod123.taskmaster.R;
+import com.potatogod123.taskmaster.models.TaskModel;
 
-import static com.potatogod123.taskmaster.MainActivity.allTask;
+import java.util.List;
+import java.util.Random;
+
 
 public class TaskRecycleAdapter extends RecyclerView.Adapter<TaskRecycleAdapter.TaskViewHolder> {
 
+    public int fragmentChose;
     public ClickOnTaskButtonAble clickOnTaskButtonAble;
-
+    public List<TaskModel> allTask;
     @NonNull
     @Override
     public TaskViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
 
+        int fragmentChosen;
+
+        switch (fragmentChose){
+            case 1: fragmentChosen=R.layout.fragment_all_task;
+            break;
+            default:
+                fragmentChosen=R.layout.fragment_task;
+        }
 
         View fragment = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.fragment_task,parent,false);
+                .inflate(fragmentChosen,parent,false);
+
 
         TaskViewHolder taskViewHolder = new TaskViewHolder(fragment);
 
@@ -43,7 +57,7 @@ public class TaskRecycleAdapter extends RecyclerView.Adapter<TaskRecycleAdapter.
         ((TextView) holder.itemView.findViewById(R.id.recyclerTaskName)).setText(title);
 
         Button button = holder.itemView.findViewById(R.id.recyclerGoToTakButton);
-
+        button.setBackgroundColor(randomColor());
         button.setOnClickListener(v -> {
             Log.i("TaskRecycleAdapter",holder.toString());
             clickOnTaskButtonAble.handleClickOnButton(holder);
@@ -57,8 +71,10 @@ public class TaskRecycleAdapter extends RecyclerView.Adapter<TaskRecycleAdapter.
         return allTask.size();
     }
 
-    public TaskRecycleAdapter(ClickOnTaskButtonAble clickOnTaskButtonAble){
+    public TaskRecycleAdapter(ClickOnTaskButtonAble clickOnTaskButtonAble,List<TaskModel> allTask, int fragmentPicked){
+        this.allTask=allTask;
         this.clickOnTaskButtonAble = clickOnTaskButtonAble;
+        this.fragmentChose=fragmentPicked;
     }
 
     public interface ClickOnTaskButtonAble{
@@ -97,5 +113,13 @@ public class TaskRecycleAdapter extends RecyclerView.Adapter<TaskRecycleAdapter.
         public void setIndex(int index) {
             this.index = index;
         }
+    }
+
+    public int randomColor() {
+        Random r = new Random();
+        int red = r.nextInt(256);
+        int green = r.nextInt(256);
+        int blue = r.nextInt(256);
+        return Color.rgb(red, green, blue);
     }
 }

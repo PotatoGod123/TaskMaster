@@ -62,18 +62,6 @@
         app:layout_constraintTop_toBottomOf="@+id/goToAllTaskButton"
         app:layout_constraintVertical_bias="0.252" />
 
-    <Button
-        android:id="@+id/recycleButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="dev"
-        app:layout_constraintBottom_toTopOf="@+id/goToSettingsButton"
-        app:layout_constraintEnd_toEndOf="@+id/goToAllTaskButton"
-        app:layout_constraintHorizontal_bias="0.491"
-        app:layout_constraintStart_toStartOf="@+id/goToAddFormButton"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.91" />
-
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/taskRecyclerViewMain"
         android:layout_width="206dp"

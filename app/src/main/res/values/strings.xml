@@ -17,4 +17,6 @@
     <string name="task3">Finish Your Coding Project</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="defaultTextForRecycler">testing thing why wont work???</string>
+    <string name="buttonTextGoToTask">Go To Task</string>
 </resources>
