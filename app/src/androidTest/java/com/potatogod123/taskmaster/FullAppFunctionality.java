@@ -13,6 +13,7 @@ import androidx.test.runner.AndroidJUnit4;
 import org.hamcrest.Description;
 import org.hamcrest.Matcher;
 import org.hamcrest.TypeSafeMatcher;
+import org.hamcrest.core.IsInstanceOf;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -31,28 +32,23 @@ import static org.hamcrest.Matchers.allOf;
 
 @LargeTest
 @RunWith(AndroidJUnit4.class)
-public class LabSettingTaskDetailsTest {
+public class FullAppFunctionality {
 
     @Rule
     public ActivityTestRule<MainActivity> mActivityTestRule = new ActivityTestRule<>(MainActivity.class);
 
     @Test
-    public void labSettingTaskDetailsTest() {
+    public void fullAppFunctionality() {
+
         ViewInteraction materialButton = onView(
                 allOf(withId(R.id.goToSettingsButton), withText("Setting"),
                         childAtPosition(
                                 childAtPosition(
                                         withId(android.R.id.content),
                                         0),
-                                6),
+                                3),
                         isDisplayed()));
         materialButton.perform(click());
-
-        ViewInteraction textView = onView(
-                allOf(withId(R.id.textViewSettingName), withText("User"),
-                        withParent(withParent(withId(android.R.id.content))),
-                        isDisplayed()));
-        textView.check(matches(withText("User")));
 
         ViewInteraction appCompatEditText = onView(
                 allOf(withId(R.id.editTextUserName),
@@ -62,7 +58,7 @@ public class LabSettingTaskDetailsTest {
                                         0),
                                 1),
                         isDisplayed()));
-        appCompatEditText.perform(replaceText("Epic"), closeSoftKeyboard());
+        appCompatEditText.perform(replaceText("Test"), closeSoftKeyboard());
 
         ViewInteraction materialButton2 = onView(
                 allOf(withId(R.id.userNameSaveButton), withText("Save"),
@@ -75,52 +71,84 @@ public class LabSettingTaskDetailsTest {
         materialButton2.perform(click());
 
         ViewInteraction textView2 = onView(
-                allOf(withId(R.id.textViewSettingName), withText("Epic"),
+                allOf(withId(R.id.textViewSettingName), withText("Test"),
                         withParent(withParent(withId(android.R.id.content))),
                         isDisplayed()));
-        textView2.check(matches(withText("Epic")));
+        textView2.check(matches(withText("Test")));
 
         pressBack();
 
         ViewInteraction textView3 = onView(
-                allOf(withId(R.id.textViewMainMyTaskTitle), withText("Welcome Epic, These are your task:"),
+                allOf(withId(R.id.textViewMainMyTaskTitle), withText("Welcome Test, These are your task:"),
                         withParent(withParent(withId(android.R.id.content))),
                         isDisplayed()));
-        textView3.check(matches(withText("Welcome Epic, These are your task:")));
+        textView3.check(matches(withText("Welcome Test, These are your task:")));
 
         ViewInteraction materialButton3 = onView(
-                allOf(withId(R.id.goToTaskButtonOne), withText("Walk The Dog"),
+                allOf(withId(R.id.goToAddFormButton), withText("Add Task"),
                         childAtPosition(
                                 childAtPosition(
                                         withId(android.R.id.content),
                                         0),
-                                5),
+                                1),
                         isDisplayed()));
         materialButton3.perform(click());
 
-        ViewInteraction textView4 = onView(
-                allOf(withId(R.id.textViewTaskDetailPageTitle), withText("Walk The Dog"),
-                        withParent(withParent(withId(android.R.id.content))),
-                        isDisplayed()));
-        textView4.check(matches(withText("Walk The Dog")));
-
-        pressBack();
-
-        ViewInteraction materialButton4 = onView(
-                allOf(withId(R.id.goToTaskButtonThree), withText("Finish Your Coding Project"),
+        ViewInteraction appCompatEditText2 = onView(
+                allOf(withId(R.id.editTextTaskTitle),
                         childAtPosition(
                                 childAtPosition(
                                         withId(android.R.id.content),
                                         0),
-                                4),
+                                1),
+                        isDisplayed()));
+        appCompatEditText2.perform(replaceText("Testing Task"), closeSoftKeyboard());
+
+        ViewInteraction appCompatEditText3 = onView(
+                allOf(withId(R.id.editTextDescription),
+                        childAtPosition(
+                                childAtPosition(
+                                        withId(android.R.id.content),
+                                        0),
+                                2),
+                        isDisplayed()));
+        appCompatEditText3.perform(replaceText("This is task description"), closeSoftKeyboard());
+
+        ViewInteraction materialButton4 = onView(
+                allOf(withId(R.id.addTaskButton), withText("Add Task"),
+                        childAtPosition(
+                                childAtPosition(
+                                        withId(android.R.id.content),
+                                        0),
+                                3),
                         isDisplayed()));
         materialButton4.perform(click());
 
-        ViewInteraction textView5 = onView(
-                allOf(withId(R.id.textViewTaskDetailPageTitle), withText("Finish Your Coding Project"),
+
+        pressBack();
+
+        ViewInteraction materialButton5 = onView(
+                allOf(withId(R.id.recyclerGoToTakButton), withText("Go To Task"),
+                        childAtPosition(
+                                allOf(withId(R.id.frameLayout2),
+                                        childAtPosition(
+                                                withId(R.id.taskRecyclerViewMain),
+                                                0)),
+                                1),
+                        isDisplayed()));
+        materialButton5.perform(click());
+
+        ViewInteraction textView6 = onView(
+                allOf(withId(R.id.textViewTaskDetailPageTitle), withText("Testing Task"),
                         withParent(withParent(withId(android.R.id.content))),
                         isDisplayed()));
-        textView5.check(matches(withText("Finish Your Coding Project")));
+        textView6.check(matches(withText("Testing Task")));
+
+        ViewInteraction textView7 = onView(
+                allOf(withId(R.id.textViewTaskDetailDescription), withText("This is task description"),
+                        withParent(withParent(withId(android.R.id.content))),
+                        isDisplayed()));
+        textView7.check(matches(withText("This is task description")));
     }
 
     private static Matcher<View> childAtPosition(
