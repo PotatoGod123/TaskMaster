@@ -5,9 +5,10 @@ Keep track of your task!
 
 ## Author: Cristian Robles
 
-## Version 1.2.0
+## Version 2.0.0
 
 ## Change Log
+2.0.0- Using new dynodb! Now you can add taks to the database and get them anywhere else!
 
 1.2.0- Added testing for UI with expresso, every functionality working as intended.
 

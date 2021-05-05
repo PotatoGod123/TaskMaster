@@ -1,0 +1,28 @@
+# this is an auto generated file. This will be overwritten
+subscription OnCreateTaskModelAmp {
+  onCreateTaskModelAmp {
+    id
+    title
+    description
+    createdAt
+    updatedAt
+  }
+}
+subscription OnUpdateTaskModelAmp {
+  onUpdateTaskModelAmp {
+    id
+    title
+    description
+    createdAt
+    updatedAt
+  }
+}
+subscription OnDeleteTaskModelAmp {
+  onDeleteTaskModelAmp {
+    id
+    title
+    description
+    createdAt
+    updatedAt
+  }
+}

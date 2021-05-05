@@ -1,5 +1,6 @@
 package com.potatogod123.taskmaster;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -8,10 +9,18 @@ import androidx.room.Room;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.amplifyframework.AmplifyException;
+import com.amplifyframework.api.aws.AWSApiPlugin;
+import com.amplifyframework.api.graphql.model.ModelQuery;
+import com.amplifyframework.core.Amplify;
+import com.amplifyframework.datastore.generated.model.TaskModelAmp;
 import com.potatogod123.taskmaster.adapters.TaskRecycleAdapter;
 import com.potatogod123.taskmaster.models.TaskModel;
 
@@ -21,9 +30,10 @@ import java.util.Locale;
 
 public class MainActivity extends AppCompatActivity implements TaskRecycleAdapter.ClickOnTaskButtonAble {
     static TaskRecycleAdapter taskRecycleAdapter;
-
+    String TAG = "main.potatogod123";
     //set this up as a service so it can use else where with autowire :))))
     TaskDatabase taskDatabase;
+    Handler mainThreadHandler;
 
 //    public static List<TaskModel> allTask = new ArrayList<>();
 
@@ -37,13 +47,35 @@ public class MainActivity extends AppCompatActivity implements TaskRecycleAdapte
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        final int[] size = {0};
 
+        mainThreadHandler = new Handler(this.getMainLooper()){
+            @Override
+            public void handleMessage(@NonNull Message msg){
+                super.handleMessage(msg);
+                switch (msg.what){
+                    case 1:{
+                        taskRecycleAdapter.notifyDataSetChanged();
+                        Log.i(TAG,"this is the size inside handler "+ taskRecycleAdapter.getItemCount());
+                        size[0] =taskRecycleAdapter.getItemCount();
+
+                    }
+                }
+
+            }
+        };
 
         Button goToAddFormButton = findViewById(R.id.goToAddFormButton);
         Button goToAllTaskButton = findViewById(R.id.goToAllTaskButton);
         Button goSettingsButton = findViewById(R.id.goToSettingsButton);
 
-
+        try {
+            Amplify.addPlugin(new AWSApiPlugin());
+            Amplify.configure(getApplicationContext());
+            Log.i("main.potatogod123","configured amplify!");
+        } catch (AmplifyException e) {
+            e.printStackTrace();
+        }
 
 
 //        Button recyclerButton = findViewById(R.id.recycleButton);
@@ -58,6 +90,7 @@ public class MainActivity extends AppCompatActivity implements TaskRecycleAdapte
         goToAddFormButton.setOnClickListener(view->{
 
             Intent  intent = new Intent(MainActivity.this,AddTask.class);
+            intent.putExtra("size", size[0]);
             startActivity(intent);
         });
 
@@ -89,11 +122,15 @@ public class MainActivity extends AppCompatActivity implements TaskRecycleAdapte
 
         List<TaskModel> allTask = taskDatabase.taskModelDao().findAll();
 
+//        List<TaskModelAmp> awsTaskList = helperQuery();
+
+
         RecyclerView recyclerView = findViewById(R.id.taskRecyclerViewMain);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        taskRecycleAdapter= new TaskRecycleAdapter(this,allTask,0);
 
+        taskRecycleAdapter= new TaskRecycleAdapter(this,helperQuery(),0);
         recyclerView.setAdapter(taskRecycleAdapter);
+
     }
 
 
@@ -108,5 +145,23 @@ public class MainActivity extends AppCompatActivity implements TaskRecycleAdapte
     @Override
     public void handleClickOnButton(TaskRecycleAdapter.TaskViewHolder taskViewHolder) {
         buttonHelper(taskViewHolder);
+    }
+
+    public List<TaskModelAmp> helperQuery(){
+        List<TaskModelAmp> awsTaskList = new ArrayList<>();
+        Amplify.API.query(
+                ModelQuery.list(TaskModelAmp.class),
+                res->{
+                    Log.i("main.potatogod123","Getting stuff from db");
+                    for(TaskModelAmp task:res.getData()){
+                        Log.i("main.potatogod123","This is tha task->"+task);
+                        awsTaskList.add(task);
+                    }
+                    mainThreadHandler.sendEmptyMessage(1);
+                },
+                r->{Log.i("main.potatogod123","failed to retrieve db");}
+        );
+
+        return awsTaskList;
     }
 }
