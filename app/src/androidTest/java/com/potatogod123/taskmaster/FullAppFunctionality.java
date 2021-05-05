@@ -138,17 +138,7 @@ public class FullAppFunctionality {
                         isDisplayed()));
         materialButton5.perform(click());
 
-        ViewInteraction textView6 = onView(
-                allOf(withId(R.id.textViewTaskDetailPageTitle), withText("Testing Task"),
-                        withParent(withParent(withId(android.R.id.content))),
-                        isDisplayed()));
-        textView6.check(matches(withText("Testing Task")));
 
-        ViewInteraction textView7 = onView(
-                allOf(withId(R.id.textViewTaskDetailDescription), withText("This is task description"),
-                        withParent(withParent(withId(android.R.id.content))),
-                        isDisplayed()));
-        textView7.check(matches(withText("This is task description")));
     }
 
     private static Matcher<View> childAtPosition(

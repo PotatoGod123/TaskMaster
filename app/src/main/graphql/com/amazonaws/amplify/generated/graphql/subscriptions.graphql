@@ -1,26 +1,26 @@
 # this is an auto generated file. This will be overwritten
-subscription OnCreateTodo {
-  onCreateTodo {
+subscription OnCreateTaskModelAmp {
+  onCreateTaskModelAmp {
     id
-    name
+    title
     description
     createdAt
     updatedAt
   }
 }
-subscription OnUpdateTodo {
-  onUpdateTodo {
+subscription OnUpdateTaskModelAmp {
+  onUpdateTaskModelAmp {
     id
-    name
+    title
     description
     createdAt
     updatedAt
   }
 }
-subscription OnDeleteTodo {
-  onDeleteTodo {
+subscription OnDeleteTaskModelAmp {
+  onDeleteTaskModelAmp {
     id
-    name
+    title
     description
     createdAt
     updatedAt

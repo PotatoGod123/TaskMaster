@@ -1,22 +1,22 @@
 # this is an auto generated file. This will be overwritten
-query GetTodo($id: ID!) {
-  getTodo(id: $id) {
+query GetTaskModelAmp($id: ID!) {
+  getTaskModelAmp(id: $id) {
     id
-    name
+    title
     description
     createdAt
     updatedAt
   }
 }
-query ListTodos(
-  $filter: ModelTodoFilterInput
+query ListTaskModelAmps(
+  $filter: ModelTaskModelAmpFilterInput
   $limit: Int
   $nextToken: String
 ) {
-  listTodos(filter: $filter, limit: $limit, nextToken: $nextToken) {
+  listTaskModelAmps(filter: $filter, limit: $limit, nextToken: $nextToken) {
     items {
       id
-      name
+      title
       description
       createdAt
       updatedAt

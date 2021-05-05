@@ -11,6 +11,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.amplifyframework.datastore.generated.model.TaskModelAmp;
 import com.potatogod123.taskmaster.R;
 import com.potatogod123.taskmaster.models.TaskModel;
 
@@ -20,9 +21,10 @@ import java.util.Random;
 
 public class TaskRecycleAdapter extends RecyclerView.Adapter<TaskRecycleAdapter.TaskViewHolder> {
 
+    Random r = new Random();
     public int fragmentChose;
     public ClickOnTaskButtonAble clickOnTaskButtonAble;
-    public List<TaskModel> allTask;
+    public List<TaskModelAmp> allTask;
     @NonNull
     @Override
     public TaskViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -71,7 +73,7 @@ public class TaskRecycleAdapter extends RecyclerView.Adapter<TaskRecycleAdapter.
         return allTask.size();
     }
 
-    public TaskRecycleAdapter(ClickOnTaskButtonAble clickOnTaskButtonAble,List<TaskModel> allTask, int fragmentPicked){
+    public TaskRecycleAdapter(ClickOnTaskButtonAble clickOnTaskButtonAble, List<TaskModelAmp> allTask, int fragmentPicked){
         this.allTask=allTask;
         this.clickOnTaskButtonAble = clickOnTaskButtonAble;
         this.fragmentChose=fragmentPicked;
@@ -116,7 +118,6 @@ public class TaskRecycleAdapter extends RecyclerView.Adapter<TaskRecycleAdapter.
     }
 
     public int randomColor() {
-        Random r = new Random();
         int red = r.nextInt(256);
         int green = r.nextInt(256);
         int blue = r.nextInt(256);

@@ -16,7 +16,7 @@
                 "description": null,
                 "fields": [
                     {
-                        "name": "getTodo",
+                        "name": "getTaskModelAmp",
                         "description": null,
                         "args": [
                             {
@@ -36,14 +36,14 @@
                         ],
                         "type": {
                             "kind": "OBJECT",
-                            "name": "Todo",
+                            "name": "TaskModelAmp",
                             "ofType": null
                         },
                         "isDeprecated": false,
                         "deprecationReason": null
                     },
                     {
-                        "name": "listTodos",
+                        "name": "listTaskModelAmps",
                         "description": null,
                         "args": [
                             {
@@ -51,7 +51,7 @@
                                 "description": null,
                                 "type": {
                                     "kind": "INPUT_OBJECT",
-                                    "name": "ModelTodoFilterInput",
+                                    "name": "ModelTaskModelAmpFilterInput",
                                     "ofType": null
                                 },
                                 "defaultValue": null
@@ -79,7 +79,7 @@
                         ],
                         "type": {
                             "kind": "OBJECT",
-                            "name": "ModelTodoConnection",
+                            "name": "ModelTaskModelAmpConnection",
                             "ofType": null
                         },
                         "isDeprecated": false,
@@ -103,7 +103,7 @@
             },
             {
                 "kind": "OBJECT",
-                "name": "Todo",
+                "name": "TaskModelAmp",
                 "description": null,
                 "fields": [
                     {
@@ -123,7 +123,7 @@
                         "deprecationReason": null
                     },
                     {
-                        "name": "name",
+                        "name": "title",
                         "description": null,
                         "args": [],
                         "type": {
@@ -210,7 +210,7 @@
             },
             {
                 "kind": "INPUT_OBJECT",
-                "name": "ModelTodoFilterInput",
+                "name": "ModelTaskModelAmpFilterInput",
                 "description": null,
                 "fields": null,
                 "inputFields": [
@@ -225,7 +225,7 @@
                         "defaultValue": null
                     },
                     {
-                        "name": "name",
+                        "name": "title",
                         "description": null,
                         "type": {
                             "kind": "INPUT_OBJECT",
@@ -252,7 +252,7 @@
                             "name": null,
                             "ofType": {
                                 "kind": "INPUT_OBJECT",
-                                "name": "ModelTodoFilterInput",
+                                "name": "ModelTaskModelAmpFilterInput",
                                 "ofType": null
                             }
                         },
@@ -266,7 +266,7 @@
                             "name": null,
                             "ofType": {
                                 "kind": "INPUT_OBJECT",
-                                "name": "ModelTodoFilterInput",
+                                "name": "ModelTaskModelAmpFilterInput",
                                 "ofType": null
                             }
                         },
@@ -277,7 +277,7 @@
                         "description": null,
                         "type": {
                             "kind": "INPUT_OBJECT",
-                            "name": "ModelTodoFilterInput",
+                            "name": "ModelTaskModelAmpFilterInput",
                             "ofType": null
                         },
                         "defaultValue": null
@@ -755,7 +755,7 @@
             },
             {
                 "kind": "OBJECT",
-                "name": "ModelTodoConnection",
+                "name": "ModelTaskModelAmpConnection",
                 "description": null,
                 "fields": [
                     {
@@ -767,7 +767,7 @@
                             "name": null,
                             "ofType": {
                                 "kind": "OBJECT",
-                                "name": "Todo",
+                                "name": "TaskModelAmp",
                                 "ofType": null
                             }
                         },
@@ -798,7 +798,7 @@
                 "description": null,
                 "fields": [
                     {
-                        "name": "createTodo",
+                        "name": "createTaskModelAmp",
                         "description": null,
                         "args": [
                             {
@@ -809,7 +809,7 @@
                                     "name": null,
                                     "ofType": {
                                         "kind": "INPUT_OBJECT",
-                                        "name": "CreateTodoInput",
+                                        "name": "CreateTaskModelAmpInput",
                                         "ofType": null
                                     }
                                 },
@@ -820,7 +820,7 @@
                                 "description": null,
                                 "type": {
                                     "kind": "INPUT_OBJECT",
-                                    "name": "ModelTodoConditionInput",
+                                    "name": "ModelTaskModelAmpConditionInput",
                                     "ofType": null
                                 },
                                 "defaultValue": null
@@ -828,14 +828,14 @@
                         ],
                         "type": {
                             "kind": "OBJECT",
-                            "name": "Todo",
+                            "name": "TaskModelAmp",
                             "ofType": null
                         },
                         "isDeprecated": false,
                         "deprecationReason": null
                     },
                     {
-                        "name": "updateTodo",
+                        "name": "updateTaskModelAmp",
                         "description": null,
                         "args": [
                             {
@@ -846,7 +846,7 @@
                                     "name": null,
                                     "ofType": {
                                         "kind": "INPUT_OBJECT",
-                                        "name": "UpdateTodoInput",
+                                        "name": "UpdateTaskModelAmpInput",
                                         "ofType": null
                                     }
                                 },
@@ -857,7 +857,7 @@
                                 "description": null,
                                 "type": {
                                     "kind": "INPUT_OBJECT",
-                                    "name": "ModelTodoConditionInput",
+                                    "name": "ModelTaskModelAmpConditionInput",
                                     "ofType": null
                                 },
                                 "defaultValue": null
@@ -865,14 +865,14 @@
                         ],
                         "type": {
                             "kind": "OBJECT",
-                            "name": "Todo",
+                            "name": "TaskModelAmp",
                             "ofType": null
                         },
                         "isDeprecated": false,
                         "deprecationReason": null
                     },
                     {
-                        "name": "deleteTodo",
+                        "name": "deleteTaskModelAmp",
                         "description": null,
                         "args": [
                             {
@@ -883,7 +883,7 @@
                                     "name": null,
                                     "ofType": {
                                         "kind": "INPUT_OBJECT",
-                                        "name": "DeleteTodoInput",
+                                        "name": "DeleteTaskModelAmpInput",
                                         "ofType": null
                                     }
                                 },
@@ -894,7 +894,7 @@
                                 "description": null,
                                 "type": {
                                     "kind": "INPUT_OBJECT",
-                                    "name": "ModelTodoConditionInput",
+                                    "name": "ModelTaskModelAmpConditionInput",
                                     "ofType": null
                                 },
                                 "defaultValue": null
@@ -902,7 +902,7 @@
                         ],
                         "type": {
                             "kind": "OBJECT",
-                            "name": "Todo",
+                            "name": "TaskModelAmp",
                             "ofType": null
                         },
                         "isDeprecated": false,
@@ -916,7 +916,7 @@
             },
             {
                 "kind": "INPUT_OBJECT",
-                "name": "CreateTodoInput",
+                "name": "CreateTaskModelAmpInput",
                 "description": null,
                 "fields": null,
                 "inputFields": [
@@ -931,7 +931,7 @@
                         "defaultValue": null
                     },
                     {
-                        "name": "name",
+                        "name": "title",
                         "description": null,
                         "type": {
                             "kind": "NON_NULL",
@@ -961,12 +961,12 @@
             },
             {
                 "kind": "INPUT_OBJECT",
-                "name": "ModelTodoConditionInput",
+                "name": "ModelTaskModelAmpConditionInput",
                 "description": null,
                 "fields": null,
                 "inputFields": [
                     {
-                        "name": "name",
+                        "name": "title",
                         "description": null,
                         "type": {
                             "kind": "INPUT_OBJECT",
@@ -993,7 +993,7 @@
                             "name": null,
                             "ofType": {
                                 "kind": "INPUT_OBJECT",
-                                "name": "ModelTodoConditionInput",
+                                "name": "ModelTaskModelAmpConditionInput",
                                 "ofType": null
                             }
                         },
@@ -1007,7 +1007,7 @@
                             "name": null,
                             "ofType": {
                                 "kind": "INPUT_OBJECT",
-                                "name": "ModelTodoConditionInput",
+                                "name": "ModelTaskModelAmpConditionInput",
                                 "ofType": null
                             }
                         },
@@ -1018,7 +1018,7 @@
                         "description": null,
                         "type": {
                             "kind": "INPUT_OBJECT",
-                            "name": "ModelTodoConditionInput",
+                            "name": "ModelTaskModelAmpConditionInput",
                             "ofType": null
                         },
                         "defaultValue": null
@@ -1030,7 +1030,7 @@
             },
             {
                 "kind": "INPUT_OBJECT",
-                "name": "UpdateTodoInput",
+                "name": "UpdateTaskModelAmpInput",
                 "description": null,
                 "fields": null,
                 "inputFields": [
@@ -1049,7 +1049,7 @@
                         "defaultValue": null
                     },
                     {
-                        "name": "name",
+                        "name": "title",
                         "description": null,
                         "type": {
                             "kind": "SCALAR",
@@ -1075,7 +1075,7 @@
             },
             {
                 "kind": "INPUT_OBJECT",
-                "name": "DeleteTodoInput",
+                "name": "DeleteTaskModelAmpInput",
                 "description": null,
                 "fields": null,
                 "inputFields": [
@@ -1100,36 +1100,36 @@
                 "description": null,
                 "fields": [
                     {
-                        "name": "onCreateTodo",
+                        "name": "onCreateTaskModelAmp",
                         "description": null,
                         "args": [],
                         "type": {
                             "kind": "OBJECT",
-                            "name": "Todo",
+                            "name": "TaskModelAmp",
                             "ofType": null
                         },
                         "isDeprecated": false,
                         "deprecationReason": null
                     },
                     {
-                        "name": "onUpdateTodo",
+                        "name": "onUpdateTaskModelAmp",
                         "description": null,
                         "args": [],
                         "type": {
                             "kind": "OBJECT",
-                            "name": "Todo",
+                            "name": "TaskModelAmp",
                             "ofType": null
                         },
                         "isDeprecated": false,
                         "deprecationReason": null
                     },
                     {
-                        "name": "onDeleteTodo",
+                        "name": "onDeleteTaskModelAmp",
                         "description": null,
                         "args": [],
                         "type": {
                             "kind": "OBJECT",
-                            "name": "Todo",
+                            "name": "TaskModelAmp",
                             "ofType": null
                         },
                         "isDeprecated": false,
