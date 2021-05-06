@@ -2,6 +2,7 @@
 query GetTaskModelAmp($id: ID!) {
   getTaskModelAmp(id: $id) {
     id
+    teamID
     title
     description
     createdAt
@@ -16,8 +17,46 @@ query ListTaskModelAmps(
   listTaskModelAmps(filter: $filter, limit: $limit, nextToken: $nextToken) {
     items {
       id
+      teamID
       title
       description
+      createdAt
+      updatedAt
+    }
+    nextToken
+  }
+}
+query GetTeam($id: ID!) {
+  getTeam(id: $id) {
+    id
+    name
+    tasks {
+      items {
+        id
+        teamID
+        title
+        description
+        createdAt
+        updatedAt
+      }
+      nextToken
+    }
+    createdAt
+    updatedAt
+  }
+}
+query ListTeams(
+  $filter: ModelTeamFilterInput
+  $limit: Int
+  $nextToken: String
+) {
+  listTeams(filter: $filter, limit: $limit, nextToken: $nextToken) {
+    items {
+      id
+      name
+      tasks {
+        nextToken
+      }
       createdAt
       updatedAt
     }

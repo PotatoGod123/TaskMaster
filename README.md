@@ -5,10 +5,12 @@ Keep track of your task!
 
 ## Author: Cristian Robles
 
-## Version 2.0.0
+## Version 2.0.1
 
 ## Change Log
-2.0.0- Using new dynodb! Now you can add taks to the database and get them anywhere else!
+2.0.1- Updating dynamoDb schema and models, Refactor code to use new entities and allow user to change the team they are in to see different task belonging to each team!
+
+2.0.0- Using new dynamodb! Now you can add taks to the database and get them anywhere else!
 
 1.2.0- Added testing for UI with expresso, every functionality working as intended.
 

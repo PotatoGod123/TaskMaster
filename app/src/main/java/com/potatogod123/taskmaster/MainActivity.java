@@ -18,9 +18,11 @@ import android.widget.TextView;
 
 import com.amplifyframework.AmplifyException;
 import com.amplifyframework.api.aws.AWSApiPlugin;
+import com.amplifyframework.api.graphql.model.ModelMutation;
 import com.amplifyframework.api.graphql.model.ModelQuery;
 import com.amplifyframework.core.Amplify;
 import com.amplifyframework.datastore.generated.model.TaskModelAmp;
+import com.amplifyframework.datastore.generated.model.Team;
 import com.potatogod123.taskmaster.adapters.TaskRecycleAdapter;
 import com.potatogod123.taskmaster.models.TaskModel;
 
@@ -29,12 +31,15 @@ import java.util.List;
 import java.util.Locale;
 
 public class MainActivity extends AppCompatActivity implements TaskRecycleAdapter.ClickOnTaskButtonAble {
-    static TaskRecycleAdapter taskRecycleAdapter;
+     TaskRecycleAdapter taskRecycleAdapter;
     String TAG = "main.potatogod123";
     //set this up as a service so it can use else where with autowire :))))
     TaskDatabase taskDatabase;
     Handler mainThreadHandler;
-
+    String selectedTeam;
+    Team currentTeam;
+    List<TaskModelAmp> currentTeamTask = new ArrayList<>();
+    static List<Team> allTeams = new ArrayList<>();
 //    public static List<TaskModel> allTask = new ArrayList<>();
 
     static{
@@ -58,8 +63,21 @@ public class MainActivity extends AppCompatActivity implements TaskRecycleAdapte
                         taskRecycleAdapter.notifyDataSetChanged();
                         Log.i(TAG,"this is the size inside handler "+ taskRecycleAdapter.getItemCount());
                         size[0] =taskRecycleAdapter.getItemCount();
-
+                        break;
                     }
+                    case 2:{
+                        for(Team team:allTeams){
+                            if(team.getName().contains(selectedTeam)){
+                                currentTeam=team;
+                            }
+                            Log.i(TAG,"This the team in the all teams"+ team.toString());
+                        }
+
+                        Log.i(TAG,"This is the current team "+currentTeam.toString());
+                        helperQuery(currentTeam.getId());
+                        break;
+                    }
+
                 }
 
             }
@@ -111,9 +129,14 @@ public class MainActivity extends AppCompatActivity implements TaskRecycleAdapte
         super.onResume();
         SharedPreferences pref = getSharedPreferences("userdetails",MODE_PRIVATE);
         String username = pref.getString("username",null);
+        selectedTeam= pref.getString("team",null);
+        if(currentTeamTask.size()!=0)currentTeamTask.clear();
+        if(selectedTeam==null) {
+            selectedTeam="Blue";
+        }
 
         if(username!=null){
-            ((TextView) findViewById(R.id.textViewMainMyTaskTitle)).setText(String.format(Locale.getDefault(),"Welcome %s, These are your task:",username));
+            ((TextView) findViewById(R.id.textViewMainMyTaskTitle)).setText(String.format(Locale.getDefault(),"Welcome %s, These are your team,%s ,task:",username,selectedTeam));
         }
 
         taskDatabase= Room.databaseBuilder(getApplicationContext(), TaskDatabase.class,"potatogod123_task")
@@ -123,13 +146,38 @@ public class MainActivity extends AppCompatActivity implements TaskRecycleAdapte
         List<TaskModel> allTask = taskDatabase.taskModelDao().findAll();
 
 //        List<TaskModelAmp> awsTaskList = helperQuery();
+//        Team newTeam = Team.builder()
+//                .name("Yellow")
+//                .build();
+//
+//        Amplify.API.mutate(
+//                ModelMutation.create(newTeam),
+//                r->Log.i(TAG,"Made new team haahh!"),
+//                r->Log.i(TAG,"Failed to make a new team :(")
+//        );
 
 
-        RecyclerView recyclerView = findViewById(R.id.taskRecyclerViewMain);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+            allTeams.clear();
 
-        taskRecycleAdapter= new TaskRecycleAdapter(this,helperQuery(),0);
-        recyclerView.setAdapter(taskRecycleAdapter);
+            Amplify.API.query(
+                    ModelQuery.list(Team.class),
+                    r -> {
+                        for (Team team : r.getData()) {
+                            allTeams.add(team);
+                            Log.i(TAG,"this is that list of the teams 167>>> "+team.getTasks().toString());
+                        }
+                        mainThreadHandler.sendEmptyMessage(2);
+                    },
+                    r -> Log.i(TAG, "Failed to get teams " + r.toString())
+            );
+
+
+                            RecyclerView recyclerView = findViewById(R.id.taskRecyclerViewMain);
+                            recyclerView.setLayoutManager(new LinearLayoutManager(this));
+
+                            taskRecycleAdapter= new TaskRecycleAdapter(this,currentTeamTask,0);
+                            recyclerView.setAdapter(taskRecycleAdapter);
+
 
     }
 
@@ -147,21 +195,20 @@ public class MainActivity extends AppCompatActivity implements TaskRecycleAdapte
         buttonHelper(taskViewHolder);
     }
 
-    public List<TaskModelAmp> helperQuery(){
-        List<TaskModelAmp> awsTaskList = new ArrayList<>();
+    public void helperQuery(String id){
+
         Amplify.API.query(
-                ModelQuery.list(TaskModelAmp.class),
+                ModelQuery.get(Team.class,id),
                 res->{
                     Log.i("main.potatogod123","Getting stuff from db");
-                    for(TaskModelAmp task:res.getData()){
+                    for(TaskModelAmp task:res.getData().getTasks()){
                         Log.i("main.potatogod123","This is tha task->"+task);
-                        awsTaskList.add(task);
+                        currentTeamTask.add(task);
                     }
                     mainThreadHandler.sendEmptyMessage(1);
                 },
                 r->{Log.i("main.potatogod123","failed to retrieve db");}
         );
 
-        return awsTaskList;
     }
 }
