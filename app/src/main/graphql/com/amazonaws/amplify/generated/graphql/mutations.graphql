@@ -5,6 +5,7 @@ mutation CreateTaskModelAmp(
 ) {
   createTaskModelAmp(input: $input, condition: $condition) {
     id
+    teamID
     title
     description
     createdAt
@@ -17,6 +18,7 @@ mutation UpdateTaskModelAmp(
 ) {
   updateTaskModelAmp(input: $input, condition: $condition) {
     id
+    teamID
     title
     description
     createdAt
@@ -29,8 +31,75 @@ mutation DeleteTaskModelAmp(
 ) {
   deleteTaskModelAmp(input: $input, condition: $condition) {
     id
+    teamID
     title
     description
+    createdAt
+    updatedAt
+  }
+}
+mutation CreateTeam(
+  $input: CreateTeamInput!
+  $condition: ModelTeamConditionInput
+) {
+  createTeam(input: $input, condition: $condition) {
+    id
+    name
+    tasks {
+      items {
+        id
+        teamID
+        title
+        description
+        createdAt
+        updatedAt
+      }
+      nextToken
+    }
+    createdAt
+    updatedAt
+  }
+}
+mutation UpdateTeam(
+  $input: UpdateTeamInput!
+  $condition: ModelTeamConditionInput
+) {
+  updateTeam(input: $input, condition: $condition) {
+    id
+    name
+    tasks {
+      items {
+        id
+        teamID
+        title
+        description
+        createdAt
+        updatedAt
+      }
+      nextToken
+    }
+    createdAt
+    updatedAt
+  }
+}
+mutation DeleteTeam(
+  $input: DeleteTeamInput!
+  $condition: ModelTeamConditionInput
+) {
+  deleteTeam(input: $input, condition: $condition) {
+    id
+    name
+    tasks {
+      items {
+        id
+        teamID
+        title
+        description
+        createdAt
+        updatedAt
+      }
+      nextToken
+    }
     createdAt
     updatedAt
   }

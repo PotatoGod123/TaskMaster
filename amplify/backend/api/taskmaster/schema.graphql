@@ -1,5 +1,14 @@
-type TaskModelAmp @model {
+type TaskModelAmp @model
+  @key(name: "byTeam", fields: ["teamID","title","description"]){
   id: ID!
+
+  teamID: ID!
   title: String!
   description: String
+}
+
+type Team @model{
+  id: ID!
+  name: String!
+  tasks : [TaskModelAmp] @connection(keyName: "byTeam", fields:["id"])
 }

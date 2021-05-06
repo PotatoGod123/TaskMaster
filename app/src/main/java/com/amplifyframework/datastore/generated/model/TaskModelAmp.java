@@ -18,15 +18,22 @@ import static com.amplifyframework.core.model.query.predicate.QueryField.field;
 /** This is an auto generated class representing the TaskModelAmp type in your schema. */
 @SuppressWarnings("all")
 @ModelConfig(pluralName = "TaskModelAmps")
+@Index(name = "byTeam", fields = {"teamID","title","description"})
 public final class TaskModelAmp implements Model {
   public static final QueryField ID = field("TaskModelAmp", "id");
+  public static final QueryField TEAM_ID = field("TaskModelAmp", "teamID");
   public static final QueryField TITLE = field("TaskModelAmp", "title");
   public static final QueryField DESCRIPTION = field("TaskModelAmp", "description");
   private final @ModelField(targetType="ID", isRequired = true) String id;
+  private final @ModelField(targetType="ID", isRequired = true) String teamID;
   private final @ModelField(targetType="String", isRequired = true) String title;
   private final @ModelField(targetType="String") String description;
   public String getId() {
       return id;
+  }
+  
+  public String getTeamId() {
+      return teamID;
   }
   
   public String getTitle() {
@@ -37,8 +44,9 @@ public final class TaskModelAmp implements Model {
       return description;
   }
   
-  private TaskModelAmp(String id, String title, String description) {
+  private TaskModelAmp(String id, String teamID, String title, String description) {
     this.id = id;
+    this.teamID = teamID;
     this.title = title;
     this.description = description;
   }
@@ -52,6 +60,7 @@ public final class TaskModelAmp implements Model {
       } else {
       TaskModelAmp taskModelAmp = (TaskModelAmp) obj;
       return ObjectsCompat.equals(getId(), taskModelAmp.getId()) &&
+              ObjectsCompat.equals(getTeamId(), taskModelAmp.getTeamId()) &&
               ObjectsCompat.equals(getTitle(), taskModelAmp.getTitle()) &&
               ObjectsCompat.equals(getDescription(), taskModelAmp.getDescription());
       }
@@ -61,6 +70,7 @@ public final class TaskModelAmp implements Model {
    public int hashCode() {
     return new StringBuilder()
       .append(getId())
+      .append(getTeamId())
       .append(getTitle())
       .append(getDescription())
       .toString()
@@ -72,13 +82,14 @@ public final class TaskModelAmp implements Model {
     return new StringBuilder()
       .append("TaskModelAmp {")
       .append("id=" + String.valueOf(getId()) + ", ")
+      .append("teamID=" + String.valueOf(getTeamId()) + ", ")
       .append("title=" + String.valueOf(getTitle()) + ", ")
       .append("description=" + String.valueOf(getDescription()))
       .append("}")
       .toString();
   }
   
-  public static TitleStep builder() {
+  public static TeamIdStep builder() {
       return new Builder();
   }
   
@@ -104,15 +115,22 @@ public final class TaskModelAmp implements Model {
     return new TaskModelAmp(
       id,
       null,
+      null,
       null
     );
   }
   
   public CopyOfBuilder copyOfBuilder() {
     return new CopyOfBuilder(id,
+      teamID,
       title,
       description);
   }
+  public interface TeamIdStep {
+    TitleStep teamId(String teamId);
+  }
+  
+
   public interface TitleStep {
     BuildStep title(String title);
   }
@@ -125,8 +143,9 @@ public final class TaskModelAmp implements Model {
   }
   
 
-  public static class Builder implements TitleStep, BuildStep {
+  public static class Builder implements TeamIdStep, TitleStep, BuildStep {
     private String id;
+    private String teamID;
     private String title;
     private String description;
     @Override
@@ -135,8 +154,16 @@ public final class TaskModelAmp implements Model {
         
         return new TaskModelAmp(
           id,
+          teamID,
           title,
           description);
+    }
+    
+    @Override
+     public TitleStep teamId(String teamId) {
+        Objects.requireNonNull(teamId);
+        this.teamID = teamId;
+        return this;
     }
     
     @Override
@@ -175,10 +202,16 @@ public final class TaskModelAmp implements Model {
   
 
   public final class CopyOfBuilder extends Builder {
-    private CopyOfBuilder(String id, String title, String description) {
+    private CopyOfBuilder(String id, String teamId, String title, String description) {
       super.id(id);
-      super.title(title)
+      super.teamId(teamId)
+        .title(title)
         .description(description);
+    }
+    
+    @Override
+     public CopyOfBuilder teamId(String teamId) {
+      return (CopyOfBuilder) super.teamId(teamId);
     }
     
     @Override

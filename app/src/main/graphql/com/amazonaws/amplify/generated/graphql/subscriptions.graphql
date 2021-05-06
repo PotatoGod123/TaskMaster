@@ -2,6 +2,7 @@
 subscription OnCreateTaskModelAmp {
   onCreateTaskModelAmp {
     id
+    teamID
     title
     description
     createdAt
@@ -11,6 +12,7 @@ subscription OnCreateTaskModelAmp {
 subscription OnUpdateTaskModelAmp {
   onUpdateTaskModelAmp {
     id
+    teamID
     title
     description
     createdAt
@@ -20,8 +22,66 @@ subscription OnUpdateTaskModelAmp {
 subscription OnDeleteTaskModelAmp {
   onDeleteTaskModelAmp {
     id
+    teamID
     title
     description
+    createdAt
+    updatedAt
+  }
+}
+subscription OnCreateTeam {
+  onCreateTeam {
+    id
+    name
+    tasks {
+      items {
+        id
+        teamID
+        title
+        description
+        createdAt
+        updatedAt
+      }
+      nextToken
+    }
+    createdAt
+    updatedAt
+  }
+}
+subscription OnUpdateTeam {
+  onUpdateTeam {
+    id
+    name
+    tasks {
+      items {
+        id
+        teamID
+        title
+        description
+        createdAt
+        updatedAt
+      }
+      nextToken
+    }
+    createdAt
+    updatedAt
+  }
+}
+subscription OnDeleteTeam {
+  onDeleteTeam {
+    id
+    name
+    tasks {
+      items {
+        id
+        teamID
+        title
+        description
+        createdAt
+        updatedAt
+      }
+      nextToken
+    }
     createdAt
     updatedAt
   }

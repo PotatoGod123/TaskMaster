@@ -16,7 +16,7 @@ import com.amplifyframework.api.graphql.model.ModelQuery;
 import com.amplifyframework.core.Amplify;
 import com.amplifyframework.datastore.generated.model.TaskModelAmp;
 import com.potatogod123.taskmaster.adapters.TaskRecycleAdapter;
-import com.potatogod123.taskmaster.models.TaskModel;
+//import com.potatogod123.taskmaster.models.TaskModel;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -59,6 +59,7 @@ public class AllTask extends AppCompatActivity implements TaskRecycleAdapter.Cli
                 .allowMainThreadQueries()
                 .build();
 //        List<TaskModel> allTask = taskDatabase.taskModelDao().findAll();
+        if(allTask.size()!=0)allTask.clear();
         Amplify.API.query(
                 ModelQuery.list(TaskModelAmp.class),
                 r->{
