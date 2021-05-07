@@ -61,7 +61,7 @@ public class MainActivity extends AppCompatActivity implements TaskRecycleAdapte
                 switch (msg.what){
                     case 1:{
                         taskRecycleAdapter.notifyDataSetChanged();
-                        Log.i(TAG,"this is the size inside handler "+ taskRecycleAdapter.getItemCount());
+//                        Log.i(TAG,"this is the size inside handler "+ taskRecycleAdapter.getItemCount());
                         size[0] =taskRecycleAdapter.getItemCount();
                         break;
                     }
@@ -70,10 +70,10 @@ public class MainActivity extends AppCompatActivity implements TaskRecycleAdapte
                             if(team.getName().contains(selectedTeam)){
                                 currentTeam=team;
                             }
-                            Log.i(TAG,"This the team in the all teams"+ team.toString());
+//                            Log.i(TAG,"This the team in the all teams"+ team.toString());
                         }
 
-                        Log.i(TAG,"This is the current team "+currentTeam.toString());
+//                        Log.i(TAG,"This is the current team "+currentTeam.toString());
                         helperQuery(currentTeam.getId());
                         break;
                     }
@@ -90,7 +90,7 @@ public class MainActivity extends AppCompatActivity implements TaskRecycleAdapte
         try {
             Amplify.addPlugin(new AWSApiPlugin());
             Amplify.configure(getApplicationContext());
-            Log.i("main.potatogod123","configured amplify!");
+//            Log.i("main.potatogod123","configured amplify!");
         } catch (AmplifyException e) {
             e.printStackTrace();
         }
@@ -145,16 +145,7 @@ public class MainActivity extends AppCompatActivity implements TaskRecycleAdapte
 
         List<TaskModel> allTask = taskDatabase.taskModelDao().findAll();
 
-//        List<TaskModelAmp> awsTaskList = helperQuery();
-//        Team newTeam = Team.builder()
-//                .name("Yellow")
-//                .build();
-//
-//        Amplify.API.mutate(
-//                ModelMutation.create(newTeam),
-//                r->Log.i(TAG,"Made new team haahh!"),
-//                r->Log.i(TAG,"Failed to make a new team :(")
-//        );
+
 
 
             allTeams.clear();
@@ -164,11 +155,11 @@ public class MainActivity extends AppCompatActivity implements TaskRecycleAdapte
                     r -> {
                         for (Team team : r.getData()) {
                             allTeams.add(team);
-                            Log.i(TAG,"this is that list of the teams 167>>> "+team.getTasks().toString());
+//                            Log.i(TAG,"this is that list of the teams 167>>> "+team.getTasks().toString());
                         }
                         mainThreadHandler.sendEmptyMessage(2);
                     },
-                    r -> Log.i(TAG, "Failed to get teams " + r.toString())
+                    r -> {}
             );
 
 
@@ -200,14 +191,10 @@ public class MainActivity extends AppCompatActivity implements TaskRecycleAdapte
         Amplify.API.query(
                 ModelQuery.get(Team.class,id),
                 res->{
-                    Log.i("main.potatogod123","Getting stuff from db");
-                    for(TaskModelAmp task:res.getData().getTasks()){
-                        Log.i("main.potatogod123","This is tha task->"+task);
-                        currentTeamTask.add(task);
-                    }
+                    currentTeamTask.addAll(res.getData().getTasks());
                     mainThreadHandler.sendEmptyMessage(1);
                 },
-                r->{Log.i("main.potatogod123","failed to retrieve db");}
+                r->{}
         );
 
     }

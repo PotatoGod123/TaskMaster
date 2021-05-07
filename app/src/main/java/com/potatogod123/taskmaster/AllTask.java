@@ -63,13 +63,13 @@ public class AllTask extends AppCompatActivity implements TaskRecycleAdapter.Cli
         Amplify.API.query(
                 ModelQuery.list(TaskModelAmp.class),
                 r->{
-                    Log.i(TAG,"Pog it worked");
+//                    Log.i(TAG,"Pog it worked");
                     for(TaskModelAmp task:r.getData()){
                         allTask.add(task);
                     }
                     mainThreadHandler.sendEmptyMessage(1);
                 },
-                r->Log.i(TAG,"pog it didnt work")
+                r->{}
         );
 
         Log.i("AllTask.potatogod123" , ""+allTask.size());

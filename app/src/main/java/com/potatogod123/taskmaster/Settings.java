@@ -72,7 +72,6 @@ public class Settings extends AppCompatActivity {
         if(username!=null){
             ((TextView) findViewById(R.id.textViewSettingName)).setText(username);
             ((EditText) findViewById(R.id.editTextUserName)).setText(username);
-            Log.i("Settings.potato", username);
         }
 
 
