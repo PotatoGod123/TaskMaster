@@ -86,8 +86,8 @@ public class AddTask extends AppCompatActivity {
 
             Amplify.API.mutate(
                     ModelMutation.create(newAmpTask),
-                    response-> Log.i("addTask.potatogod","new task has been made and added to database"),
-                    r -> Log.i("addTask.potatogod","Failed to add new task "+r.toString())
+                    response-> {},
+                    r -> {}
             );
 
             TaskModel newTask = new TaskModel(title,description);
@@ -111,7 +111,7 @@ public class AddTask extends AppCompatActivity {
     @Override
     protected  void onResume(){
         super.onResume();
-        List<TaskModelAmp> awsTaskList = helperQuery();
+//        List<TaskModelAmp> awsTaskList = helperQuery();
         Intent intent = getIntent();
         int size = intent.getIntExtra("size",0);
 
@@ -123,7 +123,6 @@ public class AddTask extends AppCompatActivity {
 
     public List<TaskModelAmp> helperQuery(){
         List<TaskModelAmp> awsTaskList = new ArrayList<>();
-        List<Boolean> flagArr = new ArrayList<>();
 
         Amplify.API.query(
                 ModelQuery.list(TaskModelAmp.class),
@@ -133,7 +132,7 @@ public class AddTask extends AppCompatActivity {
                     }
 
                 },
-                r->{Log.i("addTask.potatogod123","failed to retrieve db"); flagArr.add(true);}
+                r->{}
         );
 
 
