@@ -8,7 +8,7 @@
     <string name="all_task">All Task</string>
     <string name="filler">filler</string>
     <string name="sampleText">"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec suscipit orci eget rhoncus fermentum. Fusce bibendum, nisl facilisis fermentum tempus, urna magna dictum sem, in malesuada massa eros cursus leo. Phasellus ut bibendum elit. Suspendisse et commodo dolor, vitae posuere sapien. Sed ut sapien sit amet sem volutpat suscipit. Ut vitae arcu ligula. Nam imperdiet, velit egestas vestibulum tincidunt, lorem nisl euismod ex, a semper diam lacus eu est. Mauris feugiat, lacus vel ullamcorper pretium, enim dui semper ante, a auctor velit orci et nunc. Aliquam in augue iaculis, malesuada tellus vel, imperdiet felis. Nulla et porta lorem, non convallis lacus. "</string>
-    <string name="userTitle">User</string>
+    <string name="userTitle">No Current User</string>
     <string name="userName">Username</string>
     <string name="save">Save</string>
     <string name="setting">Setting</string>
@@ -20,4 +20,15 @@
     <string name="defaultTextForRecycler">testing thing why wont work???</string>
     <string name="buttonTextGoToTask">Go To Task</string>
     <string name="selectTeam">Select Team Here</string>
+    <string name="loginText">Login</string>
+    <string name="signUpText">Sign Up</string>
+    <string name="textBelowSignUp">Please fill out the form bellow</string>
+    <string name="passwordText">Passsword</string>
+    <string name="emailText">Email Address</string>
+    <string name="confirmText">Confirmation</string>
+    <string name="confirmationTextDescription">With the email you have provided, you should have recieve a code. Please Type and Submit it Below</string>
+    <string name="Code">Code</string>
+    <string name="submit">Submit</string>
+    <string name="login">Login</string>
+    <string name="logOut">Sign Out</string>
 </resources>

@@ -1,4 +1,4 @@
-package com.potatogod123.taskmaster;
+package com.potatogod123.taskmaster.recyclers;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.os.Bundle;
 
 import com.google.android.material.snackbar.Snackbar;
+import com.potatogod123.taskmaster.R;
 import com.potatogod123.taskmaster.adapters.RecyclerViewPracticeAdapter;
 
 public class RecyclerViewPractice extends AppCompatActivity implements RecyclerViewPracticeAdapter.ClickOnSkateBoardAble {

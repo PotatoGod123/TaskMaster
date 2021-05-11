@@ -1,4 +1,4 @@
-package com.potatogod123.taskmaster;
+package com.potatogod123.taskmaster.activities;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -11,18 +11,19 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.util.Log;
-import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
 import com.amplifyframework.AmplifyException;
 import com.amplifyframework.api.aws.AWSApiPlugin;
-import com.amplifyframework.api.graphql.model.ModelMutation;
 import com.amplifyframework.api.graphql.model.ModelQuery;
+import com.amplifyframework.auth.AuthUser;
+import com.amplifyframework.auth.cognito.AWSCognitoAuthPlugin;
 import com.amplifyframework.core.Amplify;
 import com.amplifyframework.datastore.generated.model.TaskModelAmp;
 import com.amplifyframework.datastore.generated.model.Team;
+import com.potatogod123.taskmaster.R;
+import com.potatogod123.taskmaster.TaskDatabase;
 import com.potatogod123.taskmaster.adapters.TaskRecycleAdapter;
 import com.potatogod123.taskmaster.models.TaskModel;
 
@@ -40,13 +41,7 @@ public class MainActivity extends AppCompatActivity implements TaskRecycleAdapte
     Team currentTeam;
     List<TaskModelAmp> currentTeamTask = new ArrayList<>();
     static List<Team> allTeams = new ArrayList<>();
-//    public static List<TaskModel> allTask = new ArrayList<>();
 
-    static{
-//        allTask.add(new TaskModel("Buy a dog","Go and buy a dog, steal one whatever"));
-//        allTask.add(new TaskModel("Sell a dog","Go and sell a dog, give it for free whatever"));
-//        allTask.add(new TaskModel("Use the Restroom","quick! it's been a long day :("));
-    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -89,25 +84,18 @@ public class MainActivity extends AppCompatActivity implements TaskRecycleAdapte
 
         try {
             Amplify.addPlugin(new AWSApiPlugin());
+            Amplify.addPlugin(new AWSCognitoAuthPlugin());
             Amplify.configure(getApplicationContext());
-//            Log.i("main.potatogod123","configured amplify!");
+
         } catch (AmplifyException e) {
             e.printStackTrace();
         }
 
 
-//        Button recyclerButton = findViewById(R.id.recycleButton);
-//
-//        recyclerButton.setOnClickListener(v -> {
-//            Intent intent = new Intent(MainActivity.this, RecyclerViewPractice.class);
-//            startActivity(intent);
-//        });
-
-
 
         goToAddFormButton.setOnClickListener(view->{
 
-            Intent  intent = new Intent(MainActivity.this,AddTask.class);
+            Intent  intent = new Intent(MainActivity.this, AddTask.class);
             intent.putExtra("size", size[0]);
             startActivity(intent);
         });
@@ -128,7 +116,7 @@ public class MainActivity extends AppCompatActivity implements TaskRecycleAdapte
     protected  void onResume(){
         super.onResume();
         SharedPreferences pref = getSharedPreferences("userdetails",MODE_PRIVATE);
-        String username = pref.getString("username",null);
+        AuthUser username = Amplify.Auth.getCurrentUser();
         selectedTeam= pref.getString("team",null);
         if(currentTeamTask.size()!=0)currentTeamTask.clear();
         if(selectedTeam==null) {
@@ -136,7 +124,9 @@ public class MainActivity extends AppCompatActivity implements TaskRecycleAdapte
         }
 
         if(username!=null){
-            ((TextView) findViewById(R.id.textViewMainMyTaskTitle)).setText(String.format(Locale.getDefault(),"Welcome %s, These are your team,%s ,task:",username,selectedTeam));
+            ((TextView) findViewById(R.id.textViewMainMyTaskTitle)).setText(String.format(Locale.getDefault(),"Welcome %s, These are your team,%s ,task:",username.getUsername(),selectedTeam));
+        }else {
+            ((TextView) findViewById(R.id.textViewMainMyTaskTitle)).setText("My Task");
         }
 
         taskDatabase= Room.databaseBuilder(getApplicationContext(), TaskDatabase.class,"potatogod123_task")
@@ -174,7 +164,7 @@ public class MainActivity extends AppCompatActivity implements TaskRecycleAdapte
 
 
     protected void buttonHelper(TaskRecycleAdapter.TaskViewHolder holder){
-        Intent intent = new Intent(MainActivity.this,TaskDetail.class);
+        Intent intent = new Intent(MainActivity.this, TaskDetail.class);
 
         intent.putExtra("taskTitle",holder.getTitle());
         intent.putExtra("description", holder.getDescription());

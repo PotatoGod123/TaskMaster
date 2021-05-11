@@ -1,10 +1,12 @@
-package com.potatogod123.taskmaster;
+package com.potatogod123.taskmaster.activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.widget.TextView;
+
+import com.potatogod123.taskmaster.R;
 
 public class TaskDetail extends AppCompatActivity {
 

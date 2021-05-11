@@ -1,4 +1,4 @@
-package com.potatogod123.taskmaster;
+package com.potatogod123.taskmaster.activities;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -15,6 +15,8 @@ import android.util.Log;
 import com.amplifyframework.api.graphql.model.ModelQuery;
 import com.amplifyframework.core.Amplify;
 import com.amplifyframework.datastore.generated.model.TaskModelAmp;
+import com.potatogod123.taskmaster.R;
+import com.potatogod123.taskmaster.TaskDatabase;
 import com.potatogod123.taskmaster.adapters.TaskRecycleAdapter;
 //import com.potatogod123.taskmaster.models.TaskModel;
 
@@ -84,7 +86,7 @@ public class AllTask extends AppCompatActivity implements TaskRecycleAdapter.Cli
     }
 
     protected void buttonHelper(TaskRecycleAdapter.TaskViewHolder holder){
-        Intent intent = new Intent(this,TaskDetail.class);
+        Intent intent = new Intent(this, TaskDetail.class);
 
         intent.putExtra("taskTitle",holder.getTitle());
         intent.putExtra("description", holder.getDescription());

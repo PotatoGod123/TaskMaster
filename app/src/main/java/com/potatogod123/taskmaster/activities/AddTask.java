@@ -1,4 +1,4 @@
-package com.potatogod123.taskmaster;
+package com.potatogod123.taskmaster.activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.room.Room;
@@ -6,7 +6,6 @@ import androidx.room.Room;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.util.Log;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
@@ -19,13 +18,15 @@ import com.amplifyframework.api.graphql.model.ModelQuery;
 import com.amplifyframework.core.Amplify;
 import com.amplifyframework.datastore.generated.model.TaskModelAmp;
 import com.amplifyframework.datastore.generated.model.Team;
+import com.potatogod123.taskmaster.R;
+import com.potatogod123.taskmaster.TaskDatabase;
 import com.potatogod123.taskmaster.models.TaskModel;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
-import static com.potatogod123.taskmaster.MainActivity.allTeams;
+import static com.potatogod123.taskmaster.activities.MainActivity.allTeams;
 
 
 public class AddTask extends AppCompatActivity {
