@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.potatogod123.taskmaster">
+    package="com.potatogod123.taskmasters">
 
     <uses-permission android:name="android.permission.INTERNET" />
 
@@ -11,15 +11,15 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.TaskMaster">
-        <activity android:name=".activities.Login"></activity>
-        <activity android:name=".activities.SignUpConfirmation" />
-        <activity android:name=".activities.SignUp" />
-        <activity android:name=".recyclers.RecyclerViewPractice" />
-        <activity android:name=".activities.Settings" />
-        <activity android:name=".activities.TaskDetail" />
-        <activity android:name=".activities.AllTask" />
-        <activity android:name=".activities.AddTask" />
-        <activity android:name=".activities.MainActivity">
+        <activity android:name="com.potatogod123.taskmasters.activities.Login"></activity>
+        <activity android:name="com.potatogod123.taskmasters.activities.SignUpConfirmation" />
+        <activity android:name="com.potatogod123.taskmasters.activities.SignUp" />
+        <activity android:name="com.potatogod123.taskmasters.recyclers.RecyclerViewPractice" />
+        <activity android:name="com.potatogod123.taskmasters.activities.Settings" />
+        <activity android:name="com.potatogod123.taskmasters.activities.TaskDetail" />
+        <activity android:name="com.potatogod123.taskmasters.activities.AllTask" />
+        <activity android:name="com.potatogod123.taskmasters.activities.AddTask" />
+        <activity android:name="com.potatogod123.taskmasters.activities.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

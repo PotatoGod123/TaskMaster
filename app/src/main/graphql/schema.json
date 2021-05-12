@@ -237,6 +237,18 @@
                         "deprecationReason": null
                     },
                     {
+                        "name": "s3StorageId",
+                        "description": null,
+                        "args": [],
+                        "type": {
+                            "kind": "SCALAR",
+                            "name": "String",
+                            "ofType": null
+                        },
+                        "isDeprecated": false,
+                        "deprecationReason": null
+                    },
+                    {
                         "name": "createdAt",
                         "description": null,
                         "args": [],
@@ -332,6 +344,16 @@
                     },
                     {
                         "name": "description",
+                        "description": null,
+                        "type": {
+                            "kind": "INPUT_OBJECT",
+                            "name": "ModelStringInput",
+                            "ofType": null
+                        },
+                        "defaultValue": null
+                    },
+                    {
+                        "name": "s3StorageId",
                         "description": null,
                         "type": {
                             "kind": "INPUT_OBJECT",
@@ -1559,6 +1581,16 @@
                             "ofType": null
                         },
                         "defaultValue": null
+                    },
+                    {
+                        "name": "s3StorageId",
+                        "description": null,
+                        "type": {
+                            "kind": "SCALAR",
+                            "name": "String",
+                            "ofType": null
+                        },
+                        "defaultValue": null
                     }
                 ],
                 "interfaces": null,
@@ -1593,6 +1625,16 @@
                     },
                     {
                         "name": "description",
+                        "description": null,
+                        "type": {
+                            "kind": "INPUT_OBJECT",
+                            "name": "ModelStringInput",
+                            "ofType": null
+                        },
+                        "defaultValue": null
+                    },
+                    {
+                        "name": "s3StorageId",
                         "description": null,
                         "type": {
                             "kind": "INPUT_OBJECT",
@@ -1686,6 +1728,16 @@
                     },
                     {
                         "name": "description",
+                        "description": null,
+                        "type": {
+                            "kind": "SCALAR",
+                            "name": "String",
+                            "ofType": null
+                        },
+                        "defaultValue": null
+                    },
+                    {
+                        "name": "s3StorageId",
                         "description": null,
                         "type": {
                             "kind": "SCALAR",

@@ -1,10 +1,10 @@
 type TaskModelAmp @model
   @key(name: "byTeam", fields: ["teamID","title","description"]){
   id: ID!
-
   teamID: ID!
   title: String!
   description: String
+  s3StorageId: String
 }
 
 type Team @model{

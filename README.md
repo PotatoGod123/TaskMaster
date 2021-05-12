@@ -5,9 +5,14 @@ An android app allowing you to add task from your everyday life.
 
 ## Author: Cristian Robles
 
-## Version 2.0.5
+## Version 2.1.0
 
 ## Change Log
+
+2.1.0- Added ability to now upload images when adding new task. Users at the moment must be signed in
+ or else not allow them to add a task at all. To view others image on task you must be signed in as well.
+
+
 2.0.5- Added new feature for users to able to sign up and sign in on their account, Implemented Auth plugin.
 Users are able to logout out as well, with dynamic UI.
 

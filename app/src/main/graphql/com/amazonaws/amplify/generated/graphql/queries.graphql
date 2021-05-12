@@ -5,6 +5,7 @@ query GetTaskModelAmp($id: ID!) {
     teamID
     title
     description
+    s3StorageId
     createdAt
     updatedAt
   }
@@ -20,6 +21,7 @@ query ListTaskModelAmps(
       teamID
       title
       description
+      s3StorageId
       createdAt
       updatedAt
     }
@@ -36,6 +38,7 @@ query GetTeam($id: ID!) {
         teamID
         title
         description
+        s3StorageId
         createdAt
         updatedAt
       }
