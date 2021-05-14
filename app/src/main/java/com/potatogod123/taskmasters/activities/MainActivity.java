@@ -144,7 +144,7 @@ public class MainActivity extends AppCompatActivity implements TaskRecycleAdapte
         if(username!=null){
             ((TextView) findViewById(R.id.textViewMainMyTaskTitle)).setText(String.format(Locale.getDefault(),"Welcome %s, These are your team,%s ,task:",username.getUsername(),selectedTeam));
         }else {
-            ((TextView) findViewById(R.id.textViewMainMyTaskTitle)).setText("My Task");
+            ((TextView) findViewById(R.id.textViewMainMyTaskTitle)).setText(String.format(Locale.getDefault(),"My %s","Task"));
         }
 
         taskDatabase= Room.databaseBuilder(getApplicationContext(), TaskDatabase.class,"potatogod123_task")
@@ -177,7 +177,7 @@ public class MainActivity extends AppCompatActivity implements TaskRecycleAdapte
                 taskRecycleAdapter= new TaskRecycleAdapter(this,currentTeamTask,0);
                 recyclerView.setAdapter(taskRecycleAdapter);
                 mainThreadHandler.sendEmptyMessage(1);
-
+                AnalyticsTools.getAnalytics();
                 if(username!=null){
                     AnalyticsEvent e = AnalyticsEvent.builder()
                             .name("Opened Task Master")
@@ -185,7 +185,7 @@ public class MainActivity extends AppCompatActivity implements TaskRecycleAdapte
                     Amplify.Analytics.recordEvent(e);
                 }
 
-                AnalyticsTools.getAnalytics();
+                
                 resumedTime =  LocalDateTime.now();
     }
 
