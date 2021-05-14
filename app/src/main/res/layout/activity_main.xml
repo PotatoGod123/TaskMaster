@@ -14,6 +14,11 @@
         android:layout_marginStart="32dp"
         android:layout_marginTop="32dp"
         android:layout_marginEnd="40dp"
+        android:background="@drawable/rectangle_for_main_task"
+        android:backgroundTint="@color/testScheme"
+        android:drawablePadding="50dp"
+        android:includeFontPadding="true"
+        android:padding="10sp"
         android:text="@string/my_tasks"
         android:textAlignment="viewStart"
         android:textAllCaps="false"
@@ -66,7 +71,7 @@
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/taskRecyclerViewMain"
-        android:layout_width="206dp"
+        android:layout_width="wrap_content"
         android:layout_height="275dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

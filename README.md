@@ -5,9 +5,12 @@ An android app allowing you to add task from your everyday life.
 
 ## Author: Cristian Robles
 
-## Version 2.1.0
+## Version 2.3.0
 
 ## Change Log
+
+2.3.0- Now bringing google firebase for notifications in Task masters and added AWS pinpoint to be use with amplify analytics for data retrieval from users using the app.
+Next step is making customize messages and notify for new task being made.
 
 2.1.0- Added ability to now upload images when adding new task. Users at the moment must be signed in
  or else not allow them to add a task at all. To view others image on task you must be signed in as well.
@@ -37,3 +40,5 @@ Users are able to logout out as well, with dynamic UI.
 ![Setting Signed in](./screenshots/SettingIn.PNG)
 
 ![Setting Signed Out](./screenshots/SettingOut.PNG)
+
+![Notification](./screenshots/notifications.PNG)

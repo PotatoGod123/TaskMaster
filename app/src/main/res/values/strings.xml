@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">TaskMaster</string>
+    <string name="app_name">Task Master</string>
     <string name="add_task">Add Task</string>
     <string name="task_title">Task Title</string>
     <string name="task_description">Task Description</string>
@@ -26,7 +26,7 @@
     <string name="passwordText">Passsword</string>
     <string name="emailText">Email Address</string>
     <string name="confirmText">Confirmation</string>
-    <string name="confirmationTextDescription">With the email you have provided, you should have recieve a code. Please Type and Submit it Below</string>
+    <string name="confirmationTextDescription">With the email you have provided, you should have receive a code. Please Type and Submit it Below</string>
     <string name="Code">Code</string>
     <string name="submit">Submit</string>
     <string name="login">Login</string>

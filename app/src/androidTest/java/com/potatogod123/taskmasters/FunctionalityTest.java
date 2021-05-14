@@ -69,25 +69,9 @@ public class FunctionalityTest {
                         isDisplayed()));
         materialButton.perform(click());
 
-        ViewInteraction appCompatEditText = onView(
-                allOf(withId(R.id.editTextUserName),
-                        childAtPosition(
-                                childAtPosition(
-                                        withId(android.R.id.content),
-                                        0),
-                                2),
-                        isDisplayed()));
-        appCompatEditText.perform(replaceText("Test"), closeSoftKeyboard());
 
-        ViewInteraction appCompatEditText2 = onView(
-                allOf(withId(R.id.editTextUserName), withText("Test"),
-                        childAtPosition(
-                                childAtPosition(
-                                        withId(android.R.id.content),
-                                        0),
-                                2),
-                        isDisplayed()));
-        appCompatEditText2.perform(pressImeActionButton());
+
+
 
         ViewInteraction materialButton2 = onView(
                 allOf(withId(R.id.userNameSaveButton), withText("Save"),
