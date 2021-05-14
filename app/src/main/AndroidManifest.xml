@@ -11,7 +11,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.TaskMaster">
-        <activity android:name="com.potatogod123.taskmasters.activities.Login"></activity>
+        <activity android:name="com.potatogod123.taskmasters.activities.Login" />
         <activity android:name="com.potatogod123.taskmasters.activities.SignUpConfirmation" />
         <activity android:name="com.potatogod123.taskmasters.activities.SignUp" />
         <activity android:name="com.potatogod123.taskmasters.recyclers.RecyclerViewPractice" />
@@ -26,6 +26,13 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <service
+            android:name=".PushListenerService"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT"/>
+            </intent-filter>
+        </service>
     </application>
 
 </manifest>

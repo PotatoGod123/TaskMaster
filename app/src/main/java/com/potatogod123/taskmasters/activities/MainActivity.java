@@ -1,20 +1,29 @@
 package com.potatogod123.taskmasters.activities;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.room.Room;
 
+import android.app.Notification;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.util.Log;
 import android.widget.Button;
 import android.widget.TextView;
 
+
 import com.amplifyframework.AmplifyException;
+import com.amplifyframework.analytics.AnalyticsEvent;
+import com.amplifyframework.analytics.pinpoint.AWSPinpointAnalyticsPlugin;
 import com.amplifyframework.api.aws.AWSApiPlugin;
 import com.amplifyframework.api.graphql.model.ModelQuery;
 import com.amplifyframework.auth.AuthUser;
@@ -23,12 +32,19 @@ import com.amplifyframework.core.Amplify;
 import com.amplifyframework.datastore.generated.model.TaskModelAmp;
 import com.amplifyframework.datastore.generated.model.Team;
 import com.amplifyframework.storage.s3.AWSS3StoragePlugin;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.messaging.FirebaseMessaging;
+import com.google.firebase.messaging.RemoteMessage;
 import com.potatogod123.taskmasters.R;
 import com.potatogod123.taskmasters.TaskDatabase;
 import com.potatogod123.taskmasters.adapters.TaskRecycleAdapter;
+import com.potatogod123.taskmasters.analytics.AnalyticsTools;
 import com.potatogod123.taskmasters.models.TaskModel;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
@@ -42,8 +58,10 @@ public class MainActivity extends AppCompatActivity implements TaskRecycleAdapte
     Team currentTeam;
     List<TaskModelAmp> currentTeamTask = new ArrayList<>();
     static List<Team> allTeams = new ArrayList<>();
+    LocalDateTime resumedTime;
 
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -83,16 +101,12 @@ public class MainActivity extends AppCompatActivity implements TaskRecycleAdapte
         Button goToAllTaskButton = findViewById(R.id.goToAllTaskButton);
         Button goSettingsButton = findViewById(R.id.goToSettingsButton);
 
-        try {
-            Amplify.addPlugin(new AWSApiPlugin());
-            Amplify.addPlugin(new AWSCognitoAuthPlugin());
-            Amplify.addPlugin(new AWSS3StoragePlugin());
-            Amplify.configure(getApplicationContext());
 
-        } catch (AmplifyException e) {
-            e.printStackTrace();
-        }
+        configureAmplify();
+        configureNotificationChannel();
 
+
+        registerWithFirebaseAndPinpoint();
 
 
         goToAddFormButton.setOnClickListener(view->{
@@ -111,6 +125,8 @@ public class MainActivity extends AppCompatActivity implements TaskRecycleAdapte
             Intent intent = new Intent(MainActivity.this, Settings.class);
             startActivity(intent);
         });
+
+
 
     }
 
@@ -155,15 +171,30 @@ public class MainActivity extends AppCompatActivity implements TaskRecycleAdapte
             );
 
 
-                            RecyclerView recyclerView = findViewById(R.id.taskRecyclerViewMain);
-                            recyclerView.setLayoutManager(new LinearLayoutManager(this));
+                RecyclerView recyclerView = findViewById(R.id.taskRecyclerViewMain);
+                recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
-                            taskRecycleAdapter= new TaskRecycleAdapter(this,currentTeamTask,0);
-                            recyclerView.setAdapter(taskRecycleAdapter);
+                taskRecycleAdapter= new TaskRecycleAdapter(this,currentTeamTask,0);
+                recyclerView.setAdapter(taskRecycleAdapter);
                 mainThreadHandler.sendEmptyMessage(1);
 
+                if(username!=null){
+                    AnalyticsEvent e = AnalyticsEvent.builder()
+                            .name("Opened Task Master")
+                            .build();
+                    Amplify.Analytics.recordEvent(e);
+                }
+
+                AnalyticsTools.getAnalytics();
+                resumedTime =  LocalDateTime.now();
     }
 
+    @Override
+    protected void onPause() {
+        super.onPause();
+        AnalyticsTools.getAnalytics().timeOnPage(resumedTime,LocalDateTime.now(),MainActivity.class.getSimpleName());
+
+    }
 
     protected void buttonHelper(TaskRecycleAdapter.TaskViewHolder holder){
         Intent intent = new Intent(MainActivity.this, TaskDetail.class);
@@ -192,4 +223,55 @@ public class MainActivity extends AppCompatActivity implements TaskRecycleAdapte
         );
 
     }
+
+    void registerWithFirebaseAndPinpoint(){
+
+        FirebaseMessaging.getInstance().getToken()
+                .addOnCompleteListener(new OnCompleteListener<String>() {
+                    @Override
+                    public void onComplete(@NonNull Task<String> task) {
+                        if (!task.isSuccessful()) {
+                            Log.w(TAG, "Fetching FCM registration token failed", task.getException());
+                            return;
+                        }                        // Get new FCM registration token
+                        String token = task.getResult();
+                    }
+                });
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.O)
+    void configureNotificationChannel(){
+        String CHANNEL_ID = "929";
+
+        NotificationChannel channel = new NotificationChannel(
+                CHANNEL_ID,
+                "New Task",
+                NotificationManager.IMPORTANCE_HIGH
+        );
+        channel.enableLights(true);
+        channel.canShowBadge();
+        channel.enableVibration(true);
+        channel.setLockscreenVisibility(3);
+        channel.setDescription("Notifications for new Task!");
+        NotificationManager notificationManager = getSystemService(NotificationManager.class);
+        notificationManager.createNotificationChannel(channel);
+
+
+
+    }
+
+    public void configureAmplify(){
+        try {
+            Amplify.addPlugin(new AWSApiPlugin());
+            Amplify.addPlugin(new AWSCognitoAuthPlugin());
+            Amplify.addPlugin(new AWSS3StoragePlugin());
+            Amplify.addPlugin(new AWSPinpointAnalyticsPlugin(getApplication()));
+            Amplify.configure(getApplicationContext());
+        } catch (AmplifyException e) {
+            e.printStackTrace();
+        }
+
+
+    }
+
 }
