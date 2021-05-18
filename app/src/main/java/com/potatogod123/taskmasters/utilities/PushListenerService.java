@@ -1,4 +1,4 @@
-package com.potatogod123.taskmasters;
+package com.potatogod123.taskmasters.utilities;
 
 import android.util.Log;
 
