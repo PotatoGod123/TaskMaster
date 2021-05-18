@@ -5,9 +5,12 @@ An android app allowing you to add task from your everyday life.
 
 ## Author: Cristian Robles
 
-## Version 2.3.0
+## Version 2.4.0
 
 ## Change Log
+
+2.4.0- Able to share text or images and be opened in task master! Will pre fill whatever was share when adding a task.
+Re-factored code to be modular when they activity is launched without others before.
 
 2.3.0- Now bringing google firebase for notifications in Task masters and added AWS pinpoint to be use with amplify analytics for data retrieval from users using the app.
 Next step is making customize messages and notify for new task being made.

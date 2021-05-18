@@ -1,12 +1,13 @@
 package com.potatogod123.taskmasters.activities;
 
-import androidx.activity.result.ActivityResultCallback;
+
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
-import androidx.annotation.RequiresApi;
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.room.Room;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.BitmapFactory;
@@ -14,6 +15,9 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.FileUtils;
+import android.os.Handler;
+import android.os.Message;
+import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -41,60 +45,133 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
-import static com.potatogod123.taskmasters.activities.MainActivity.allTeams;
+import static com.potatogod123.taskmasters.utilities.ConfigUtilities.configPlugins;
 
 
 public class AddTask extends AppCompatActivity {
+    String TAG = "potatogod123.AddTask";
+    Handler handler;
     TaskDatabase taskDatabase;
     Team selectedTeam;
     File fileUpload;
-    private final int GET_IMAGE_CODE=32;
+    List<TaskModelAmp> awsTaskList=new ArrayList<>();
+    Spinner coolSpinner;
+    SharedPreferences pref;
+    List<Team> thisAllTeams= new ArrayList<>();
+//    private final int GET_IMAGE_CODE=32;
     ActivityResultLauncher<String[]> filePicker= registerForActivityResult(
             new ActivityResultContracts.OpenDocument(),
-            new ActivityResultCallback<Uri>() {
-                @RequiresApi(api = Build.VERSION_CODES.Q)
-                @Override
-                public void onActivityResult(Uri result) {
-                    if(result!=null) {
-                        fileUpload = new File(getApplicationContext().getFilesDir(), "tempFile");
-                        try {
-                            InputStream inputStream = getContentResolver().openInputStream(result);
-
-                            FileUtils.copy(inputStream, new FileOutputStream(fileUpload));
-                            ImageView i = findViewById(R.id.imageViewSelectImagePreview);
-                            i.setImageBitmap(BitmapFactory.decodeFile(fileUpload.getPath()));
-                            Toast.makeText(AddTask.this,"Your task, has been made!",Toast.LENGTH_LONG).show();
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                        }
-                    }
-
+            result -> {
+                if(result!=null) {
+                    setUpPreviewImage(result);
                 }
+
             });
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        configPlugins(getApplication(),getApplicationContext());
+
+        handler=new Handler(this.getMainLooper()){
+            @Override
+            public void handleMessage(@NonNull Message msg) {
+                super.handleMessage(msg);
+
+                if(msg.what==1){
+                    setUpInstanceVariable(getApplicationContext());
+                }else if(msg.what==2){
+                    ((TextView) findViewById(R.id.textViewTotalTask)).setText(String.format(Locale.getDefault(),"Total Task: %d",awsTaskList.size()));
+                }
+            }
+        };
+
+        awsTaskList = helperQuery();
         setContentView(R.layout.activity_add_task);
-        SharedPreferences pref = getApplicationContext().getSharedPreferences("userdetails",MODE_PRIVATE);
-//        if(counter>0){
-//
-//        }
-        Button addTaskButton = findViewById(R.id.addTaskButton);
+        pref = getApplicationContext().getSharedPreferences("userdetails",MODE_PRIVATE);
+
         Button selectImage = findViewById(R.id.selectImageButton);
 
         taskDatabase= Room.databaseBuilder(getApplicationContext(), TaskDatabase.class,"potatogod123_task")
                 .allowMainThreadQueries()
                 .build();
 
+
+
+        selectImage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                filePicker.launch(new String[]{"image/*"});
+            }
+        });
+
+
+    }
+
+    @Override
+    protected  void onResume(){
+        super.onResume();
+//        List<TaskModelAmp> awsTaskList = helperQuery();
+
+        configureDataFromFilter();
+        setUpAddTaskButton();
+
+    }
+
+
+    public List<TaskModelAmp> helperQuery(){
+
+
+        Amplify.API.query(
+                ModelQuery.list(TaskModelAmp.class),
+                r->{
+                    for(TaskModelAmp task:r.getData()){
+                        awsTaskList.add(task);
+                    }
+                    handler.sendEmptyMessage(2);
+                },
+                r->{}
+        );
+        Amplify.API.query(
+                ModelQuery.list(Team.class),
+                r->{
+                    for(Team t: r.getData()){
+                        thisAllTeams.add(t);
+                    }
+                    handler.sendEmptyMessage(1);
+                },
+                r->{}
+        );
+
+        return  awsTaskList;
+    }
+
+
+    public void setUpPreviewImage(Uri result){
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+            try {
+                fileUpload = new File(getApplicationContext().getFilesDir(), "tempFile");
+                InputStream inputStream = getContentResolver().openInputStream(result);
+                FileUtils.copy(inputStream, new FileOutputStream(fileUpload));
+                ImageView i = findViewById(R.id.imageViewSelectImagePreview);
+                i.setImageBitmap(BitmapFactory.decodeFile(fileUpload.getPath()));
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }else {
+            Toast.makeText(AddTask.this,"Your phone does not support this app!",Toast.LENGTH_LONG).show();
+        }
+    }
+
+    public void setUpInstanceVariable(Context c){
         ArrayList<String> namesArr= new ArrayList<>();
 
-        for(Team team: allTeams){
+        for(Team team: thisAllTeams){
             namesArr.add(team.getName());
         }
 
-        Spinner coolSpinner = findViewById(R.id.addTaskSpinner);
-        ArrayAdapter<String> adapt = new ArrayAdapter<>(this,R.layout.fragment_spinner_setting_fragment,R.id.textViewFragementSpinner,namesArr);
+        coolSpinner = findViewById(R.id.addTaskSpinner);
+        ArrayAdapter<String> adapt = new ArrayAdapter<>(c,R.layout.fragment_spinner_setting_fragment,R.id.textViewFragementSpinner,namesArr);
         coolSpinner.setAdapter(adapt);
         int count=0;
         String teamStr= pref.getString("team",null);
@@ -108,17 +185,16 @@ public class AddTask extends AppCompatActivity {
             coolSpinner.setSelection(count);
         }
 
-        selectImage.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                filePicker.launch(new String[]{"image/*"});
-            }
-        });
+    }
 
+    public void setUpAddTaskButton(){
+        Button addTaskButton = findViewById(R.id.addTaskButton);
         addTaskButton.setOnClickListener(view->{
+            Log.i(TAG, "You are in the button, but can't find current user?");
             if(Amplify.Auth.getCurrentUser()==null){
-                Snackbar.make(this,view,"You MUST best logged in to add a task!, Please Go to settings and sign up/login!",Snackbar.LENGTH_LONG).show();
-                Toast.makeText(this,"You MUST best logged in to add a task!, Please Go to settings and sign up/login!",Toast.LENGTH_LONG).show();
+
+                Snackbar.make(getApplicationContext(),view,"You MUST best logged in to add a task!, Please Go to settings and sign up/login!",Snackbar.LENGTH_LONG).show();
+                Toast.makeText(getApplicationContext(),"You MUST best logged in to add a task!, Please Go to settings and sign up/login!",Toast.LENGTH_LONG).show();
                 return;
             }
 
@@ -135,16 +211,17 @@ public class AddTask extends AppCompatActivity {
                 return;
             }
             if(fileUpload==null) {
+                Log.i(TAG, "Inside of file upload");
                 Snackbar.make(this,view,"Please Select An Image",Snackbar.LENGTH_SHORT).show();
                 return;
             }
-
-            for(Team teams: allTeams){
+            for(Team teams: thisAllTeams){
                 if(teamChoice.contains(teams.getName())){
                     selectedTeam=teams;
                 }
             }
             if(selectedTeam==null)return;
+
 
             TaskModelAmp newAmpTask= TaskModelAmp.builder()
                     .teamId(selectedTeam.getId())
@@ -163,19 +240,19 @@ public class AddTask extends AppCompatActivity {
             Amplify.Storage.uploadFile(
                     sB,
                     fileUpload,
-                    r->{fileUpload=null;},
+                    r-> fileUpload=null,
                     r->{}
             );
 
 
 
-            TaskModel newTask = new TaskModel(title,description);
+//            TaskModel newTask = new TaskModel(title,description);
 //            taskDatabase.taskModelDao().insert(newTask);
 
 //            List<TaskModel> allTask = taskDatabase.taskModelDao().findAll();
-            List<TaskModelAmp> awsTaskList = helperQuery();
-            Intent intent = getIntent();
-            int size = intent.getIntExtra("size",0);
+
+//            Intent intent = getIntent();
+            int size = awsTaskList.size();
             size++;
             ((TextView) findViewById(R.id.textViewTotalTask)).setText(String.format(Locale.getDefault(),"Total Task: %d",size));
 
@@ -188,38 +265,18 @@ public class AddTask extends AppCompatActivity {
 
         });
     }
-
-    @Override
-    protected  void onResume(){
-        super.onResume();
-//        List<TaskModelAmp> awsTaskList = helperQuery();
+    public void configureDataFromFilter(){
         Intent intent = getIntent();
-        int size = intent.getIntExtra("size",0);
-
-
-        ((TextView) findViewById(R.id.textViewTotalTask)).setText(String.format(Locale.getDefault(),"Total Task: %d",size));
-
+        String i = intent.getType();
+        if(i!=null){
+            if(intent.getType().equals("text/plain")){
+                String t = intent.getStringExtra(Intent.EXTRA_TEXT);
+                ((EditText) findViewById(R.id.editTextTaskTitle)).setText(t);
+            }else if(intent.getType().startsWith("image/")){
+                Uri uri = intent.getParcelableExtra(Intent.EXTRA_STREAM);
+                setUpPreviewImage(uri);
+            }
+        }
     }
-
-
-    public List<TaskModelAmp> helperQuery(){
-        List<TaskModelAmp> awsTaskList = new ArrayList<>();
-
-        Amplify.API.query(
-                ModelQuery.list(TaskModelAmp.class),
-                r->{
-                    for(TaskModelAmp task:r.getData()){
-                        awsTaskList.add(task);
-                    }
-
-                },
-                r->{}
-        );
-
-
-        return  awsTaskList;
-    }
-
-
 
 }

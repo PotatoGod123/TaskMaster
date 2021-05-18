@@ -47,6 +47,10 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
+import java.util.PriorityQueue;
+import java.util.Queue;
+
+import static com.potatogod123.taskmasters.utilities.ConfigUtilities.configPlugins;
 
 public class MainActivity extends AppCompatActivity implements TaskRecycleAdapter.ClickOnTaskButtonAble {
      TaskRecycleAdapter taskRecycleAdapter;
@@ -102,7 +106,7 @@ public class MainActivity extends AppCompatActivity implements TaskRecycleAdapte
         Button goSettingsButton = findViewById(R.id.goToSettingsButton);
 
 
-        configureAmplify();
+        configPlugins(getApplication(),getApplicationContext());
         configureNotificationChannel();
 
 
@@ -257,21 +261,8 @@ public class MainActivity extends AppCompatActivity implements TaskRecycleAdapte
         notificationManager.createNotificationChannel(channel);
 
 
-
     }
 
-    public void configureAmplify(){
-        try {
-            Amplify.addPlugin(new AWSApiPlugin());
-            Amplify.addPlugin(new AWSCognitoAuthPlugin());
-            Amplify.addPlugin(new AWSS3StoragePlugin());
-            Amplify.addPlugin(new AWSPinpointAnalyticsPlugin(getApplication()));
-            Amplify.configure(getApplicationContext());
-        } catch (AmplifyException e) {
-            e.printStackTrace();
-        }
 
-
-    }
 
 }
