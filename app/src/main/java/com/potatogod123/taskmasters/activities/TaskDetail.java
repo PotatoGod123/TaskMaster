@@ -12,6 +12,7 @@ import com.amplifyframework.core.Amplify;
 import com.potatogod123.taskmasters.R;
 
 import java.io.File;
+import java.util.Locale;
 
 public class TaskDetail extends AppCompatActivity {
 
@@ -30,9 +31,21 @@ public class TaskDetail extends AppCompatActivity {
         Intent intent = getIntent();
         if(intent.getStringExtra("taskTitle")!=null && !intent.getStringExtra("taskTitle").equals("")){
             ((TextView) findViewById(R.id.textViewTaskDetailPageTitle)).setText(intent.getStringExtra("taskTitle"));
-            if(intent.getStringExtra("description")!=null){
-                ((TextView) findViewById(R.id.textViewTaskDetailDescription)).setText(intent.getStringExtra("description"));
-            }
+
+        }else{
+            ((TextView) findViewById(R.id.textViewTaskDetailPageTitle)).setText(intent.getStringExtra("No Title Available"));
+        }
+
+        if(intent.getStringExtra("description")!=null){
+            ((TextView) findViewById(R.id.textViewTaskDetailDescription)).setText(intent.getStringExtra("description"));
+        }else {
+            ((TextView) findViewById(R.id.textViewTaskDetailDescription)).setText(intent.getStringExtra("No Description Available"));
+        }
+
+        if(intent.getStringExtra("location")!=null){
+            ((TextView) findViewById(R.id.locationTextView)).setText(String.format(Locale.getDefault(),"Location made at: %s",intent.getStringExtra("location")));
+        }else {
+            ((TextView) findViewById(R.id.locationTextView)).setText(String.format(Locale.getDefault(),"No location %s","Found"));
         }
 
         String pictureId= intent.getStringExtra("taskImageKey");

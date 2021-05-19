@@ -9,6 +9,7 @@ mutation CreateTaskModelAmp(
     title
     description
     s3StorageId
+    locationCreation
     createdAt
     updatedAt
   }
@@ -23,6 +24,7 @@ mutation UpdateTaskModelAmp(
     title
     description
     s3StorageId
+    locationCreation
     createdAt
     updatedAt
   }
@@ -37,6 +39,7 @@ mutation DeleteTaskModelAmp(
     title
     description
     s3StorageId
+    locationCreation
     createdAt
     updatedAt
   }
@@ -55,6 +58,7 @@ mutation CreateTeam(
         title
         description
         s3StorageId
+        locationCreation
         createdAt
         updatedAt
       }
@@ -78,6 +82,7 @@ mutation UpdateTeam(
         title
         description
         s3StorageId
+        locationCreation
         createdAt
         updatedAt
       }
@@ -101,6 +106,7 @@ mutation DeleteTeam(
         title
         description
         s3StorageId
+        locationCreation
         createdAt
         updatedAt
       }

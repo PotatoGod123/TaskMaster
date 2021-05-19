@@ -5,9 +5,12 @@ An android app allowing you to add task from your everyday life.
 
 ## Author: Cristian Robles
 
-## Version 2.4.0
+## Version 2.5.0
 
 ## Change Log
+
+2.5.0- Now app requires location permission, this allows the user task to be added with their current location.
+This will show up in the task detail activity. Updated schema models with a locationCreation propertie now.
 
 2.4.0- Able to share text or images and be opened in task master! Will pre fill whatever was share when adding a task.
 Re-factored code to be modular when they activity is launched without others before.

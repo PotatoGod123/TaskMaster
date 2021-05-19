@@ -25,11 +25,13 @@ public final class TaskModelAmp implements Model {
   public static final QueryField TITLE = field("TaskModelAmp", "title");
   public static final QueryField DESCRIPTION = field("TaskModelAmp", "description");
   public static final QueryField S3_STORAGE_ID = field("TaskModelAmp", "s3StorageId");
+  public static final QueryField LOCATION_CREATION = field("TaskModelAmp", "locationCreation");
   private final @ModelField(targetType="ID", isRequired = true) String id;
   private final @ModelField(targetType="ID", isRequired = true) String teamID;
   private final @ModelField(targetType="String", isRequired = true) String title;
   private final @ModelField(targetType="String") String description;
   private  @ModelField(targetType="String") String s3StorageId;
+  private final @ModelField(targetType="String") String locationCreation;
   public String getId() {
       return id;
   }
@@ -49,17 +51,19 @@ public final class TaskModelAmp implements Model {
   public String getS3StorageId() {
       return s3StorageId;
   }
+  
+  public String getLocationCreation() {
+      return locationCreation;
+  }
+  public void setS3StorageId(String s3StorageId){this.s3StorageId=s3StorageId;}
 
-    public void setS3StorageId(String s3StorageId) {
-        this.s3StorageId = s3StorageId;
-    }
-
-    private TaskModelAmp(String id, String teamID, String title, String description, String s3StorageId) {
+  private TaskModelAmp(String id, String teamID, String title, String description, String s3StorageId, String locationCreation) {
     this.id = id;
     this.teamID = teamID;
     this.title = title;
     this.description = description;
     this.s3StorageId = s3StorageId;
+    this.locationCreation = locationCreation;
   }
   
   @Override
@@ -74,7 +78,8 @@ public final class TaskModelAmp implements Model {
               ObjectsCompat.equals(getTeamId(), taskModelAmp.getTeamId()) &&
               ObjectsCompat.equals(getTitle(), taskModelAmp.getTitle()) &&
               ObjectsCompat.equals(getDescription(), taskModelAmp.getDescription()) &&
-              ObjectsCompat.equals(getS3StorageId(), taskModelAmp.getS3StorageId());
+              ObjectsCompat.equals(getS3StorageId(), taskModelAmp.getS3StorageId()) &&
+              ObjectsCompat.equals(getLocationCreation(), taskModelAmp.getLocationCreation());
       }
   }
   
@@ -86,6 +91,7 @@ public final class TaskModelAmp implements Model {
       .append(getTitle())
       .append(getDescription())
       .append(getS3StorageId())
+      .append(getLocationCreation())
       .toString()
       .hashCode();
   }
@@ -98,7 +104,8 @@ public final class TaskModelAmp implements Model {
       .append("teamID=" + String.valueOf(getTeamId()) + ", ")
       .append("title=" + String.valueOf(getTitle()) + ", ")
       .append("description=" + String.valueOf(getDescription()) + ", ")
-      .append("s3StorageId=" + String.valueOf(getS3StorageId()))
+      .append("s3StorageId=" + String.valueOf(getS3StorageId()) + ", ")
+      .append("locationCreation=" + String.valueOf(getLocationCreation()))
       .append("}")
       .toString();
   }
@@ -131,6 +138,7 @@ public final class TaskModelAmp implements Model {
       null,
       null,
       null,
+      null,
       null
     );
   }
@@ -140,7 +148,8 @@ public final class TaskModelAmp implements Model {
       teamID,
       title,
       description,
-      s3StorageId);
+      s3StorageId,
+      locationCreation);
   }
   public interface TeamIdStep {
     TitleStep teamId(String teamId);
@@ -157,6 +166,7 @@ public final class TaskModelAmp implements Model {
     BuildStep id(String id) throws IllegalArgumentException;
     BuildStep description(String description);
     BuildStep s3StorageId(String s3StorageId);
+    BuildStep locationCreation(String locationCreation);
   }
   
 
@@ -166,6 +176,7 @@ public final class TaskModelAmp implements Model {
     private String title;
     private String description;
     private String s3StorageId;
+    private String locationCreation;
     @Override
      public TaskModelAmp build() {
         String id = this.id != null ? this.id : UUID.randomUUID().toString();
@@ -175,7 +186,8 @@ public final class TaskModelAmp implements Model {
           teamID,
           title,
           description,
-          s3StorageId);
+          s3StorageId,
+          locationCreation);
     }
     
     @Override
@@ -204,6 +216,12 @@ public final class TaskModelAmp implements Model {
         return this;
     }
     
+    @Override
+     public BuildStep locationCreation(String locationCreation) {
+        this.locationCreation = locationCreation;
+        return this;
+    }
+    
     /** 
      * WARNING: Do not set ID when creating a new object. Leave this blank and one will be auto generated for you.
      * This should only be set when referring to an already existing object.
@@ -227,12 +245,13 @@ public final class TaskModelAmp implements Model {
   
 
   public final class CopyOfBuilder extends Builder {
-    private CopyOfBuilder(String id, String teamId, String title, String description, String s3StorageId) {
+    private CopyOfBuilder(String id, String teamId, String title, String description, String s3StorageId, String locationCreation) {
       super.id(id);
       super.teamId(teamId)
         .title(title)
         .description(description)
-        .s3StorageId(s3StorageId);
+        .s3StorageId(s3StorageId)
+        .locationCreation(locationCreation);
     }
     
     @Override
@@ -253,6 +272,11 @@ public final class TaskModelAmp implements Model {
     @Override
      public CopyOfBuilder s3StorageId(String s3StorageId) {
       return (CopyOfBuilder) super.s3StorageId(s3StorageId);
+    }
+    
+    @Override
+     public CopyOfBuilder locationCreation(String locationCreation) {
+      return (CopyOfBuilder) super.locationCreation(locationCreation);
     }
   }
   

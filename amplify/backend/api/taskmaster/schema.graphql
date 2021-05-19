@@ -5,6 +5,7 @@ type TaskModelAmp @model
   title: String!
   description: String
   s3StorageId: String
+  locationCreation: String
 }
 
 type Team @model{

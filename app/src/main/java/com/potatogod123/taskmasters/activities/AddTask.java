@@ -5,12 +5,16 @@ import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
 import androidx.room.Room;
 
+import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.graphics.BitmapFactory;
+import android.location.Geocoder;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -32,6 +36,8 @@ import com.amplifyframework.api.graphql.model.ModelQuery;
 import com.amplifyframework.core.Amplify;
 import com.amplifyframework.datastore.generated.model.TaskModelAmp;
 import com.amplifyframework.datastore.generated.model.Team;
+import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.location.LocationServices;
 import com.google.android.material.snackbar.Snackbar;
 import com.potatogod123.taskmasters.R;
 import com.potatogod123.taskmasters.TaskDatabase;
@@ -48,6 +54,7 @@ import java.util.Locale;
 import static com.potatogod123.taskmasters.utilities.ConfigUtilities.configPlugins;
 
 
+
 public class AddTask extends AppCompatActivity {
     String TAG = "potatogod123.AddTask";
     Handler handler;
@@ -58,6 +65,9 @@ public class AddTask extends AppCompatActivity {
     Spinner coolSpinner;
     SharedPreferences pref;
     List<Team> thisAllTeams= new ArrayList<>();
+    FusedLocationProviderClient locationProviderClient;
+    Geocoder geocoder;
+    String address;
 //    private final int GET_IMAGE_CODE=32;
     ActivityResultLauncher<String[]> filePicker= registerForActivityResult(
             new ActivityResultContracts.OpenDocument(),
@@ -85,7 +95,8 @@ public class AddTask extends AppCompatActivity {
                 }
             }
         };
-
+        loadLocationProviderClient();
+        getCurrentLocation();
         awsTaskList = helperQuery();
         setContentView(R.layout.activity_add_task);
         pref = getApplicationContext().getSharedPreferences("userdetails",MODE_PRIVATE);
@@ -191,13 +202,16 @@ public class AddTask extends AppCompatActivity {
         Button addTaskButton = findViewById(R.id.addTaskButton);
         addTaskButton.setOnClickListener(view->{
             Log.i(TAG, "You are in the button, but can't find current user?");
+
             if(Amplify.Auth.getCurrentUser()==null){
 
                 Snackbar.make(getApplicationContext(),view,"You MUST best logged in to add a task!, Please Go to settings and sign up/login!",Snackbar.LENGTH_LONG).show();
                 Toast.makeText(getApplicationContext(),"You MUST best logged in to add a task!, Please Go to settings and sign up/login!",Toast.LENGTH_LONG).show();
                 return;
             }
-
+            if(address==null){
+                Snackbar.make(getApplicationContext(),view,"Please Enable Location for this app in your settings!! Or check your internet service.",Snackbar.LENGTH_LONG).show();
+            }
 
             String title = ((EditText) findViewById(R.id.editTextTaskTitle)).getText().toString();
             String description = ((EditText) findViewById(R.id.editTextDescription)).getText().toString();
@@ -226,6 +240,7 @@ public class AddTask extends AppCompatActivity {
             TaskModelAmp newAmpTask= TaskModelAmp.builder()
                     .teamId(selectedTeam.getId())
                     .title(title)
+                    .locationCreation(address)
                     .description(description)
                     .build();
 
@@ -279,4 +294,42 @@ public class AddTask extends AppCompatActivity {
         }
     }
 
+    void loadLocationProviderClient() {
+        locationProviderClient = LocationServices.getFusedLocationProviderClient(getApplicationContext());
+        geocoder = new Geocoder(getApplicationContext(), Locale.getDefault());
+
+    }
+
+    void getCurrentLocation() {
+
+        if (ActivityCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            // TODO: Consider calling
+            //    ActivityCompat#requestPermissions
+            // here to request the missing permissions, and then overriding
+            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+            //                                          int[] grantResults)
+            // to handle the case where the user grants the permission. See the documentation
+            // for ActivityCompat#requestPermissions for more details.
+        }
+        locationProviderClient.getLastLocation()
+                .addOnCompleteListener(data -> Log.i(TAG, "on complete : " + data.toString()))
+                .addOnSuccessListener(location -> {
+                    if (location != null) {
+                        Log.i(TAG, "on success : " + location.toString());
+                        try {
+                            address = geocoder.getFromLocation(
+                                    location.getLatitude(),
+                                    location.getLongitude(),
+                                    1
+                            ).get(0).getAddressLine(0);
+
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                })
+
+                .addOnCanceledListener(() -> Log.i(TAG, "on canceled : "))
+                .addOnFailureListener(error -> Log.i(TAG, "on error : " + error.toString()));
+    }
 }
