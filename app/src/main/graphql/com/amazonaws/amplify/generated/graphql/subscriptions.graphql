@@ -6,6 +6,7 @@ subscription OnCreateTaskModelAmp {
     title
     description
     s3StorageId
+    locationCreation
     createdAt
     updatedAt
   }
@@ -17,6 +18,7 @@ subscription OnUpdateTaskModelAmp {
     title
     description
     s3StorageId
+    locationCreation
     createdAt
     updatedAt
   }
@@ -28,6 +30,7 @@ subscription OnDeleteTaskModelAmp {
     title
     description
     s3StorageId
+    locationCreation
     createdAt
     updatedAt
   }
@@ -43,6 +46,7 @@ subscription OnCreateTeam {
         title
         description
         s3StorageId
+        locationCreation
         createdAt
         updatedAt
       }
@@ -63,6 +67,7 @@ subscription OnUpdateTeam {
         title
         description
         s3StorageId
+        locationCreation
         createdAt
         updatedAt
       }
@@ -83,6 +88,7 @@ subscription OnDeleteTeam {
         title
         description
         s3StorageId
+        locationCreation
         createdAt
         updatedAt
       }
