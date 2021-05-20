@@ -53,7 +53,7 @@
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toEndOf="@+id/goToAddFormButton"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.89" />
+        app:layout_constraintVertical_bias="0.693" />
 
     <Button
         android:id="@+id/goToSettingsButton"
@@ -73,11 +73,22 @@
         android:id="@+id/taskRecyclerViewMain"
         android:layout_width="wrap_content"
         android:layout_height="275dp"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/goToAllTaskButton"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textViewMainMyTaskTitle"
         app:layout_constraintVertical_bias="0.201" />
+
+    <com.google.android.gms.ads.AdView
+        android:id="@+id/mainBottomBannerAdView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/goToSettingsButton"
+        app:adSize="LARGE_BANNER"
+        app:adUnitId="ca-app-pub-3940256099942544/6300978111" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

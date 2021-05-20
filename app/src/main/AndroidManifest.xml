@@ -14,6 +14,10 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.TaskMaster">
+        <meta-data
+            android:name="com.google.android.gms.ads.APPLICATION_ID"
+            android:value="ca-app-pub-8077611097501749~5445121305"/>
+
         <activity android:name="com.potatogod123.taskmasters.activities.Login" />
         <activity android:name="com.potatogod123.taskmasters.activities.SignUpConfirmation" />
         <activity android:name="com.potatogod123.taskmasters.activities.SignUp" />
