@@ -36,6 +36,9 @@ import com.amplifyframework.core.Amplify;
 import com.amplifyframework.datastore.generated.model.TaskModelAmp;
 import com.amplifyframework.datastore.generated.model.Team;
 import com.amplifyframework.storage.s3.AWSS3StoragePlugin;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
+import com.google.android.gms.ads.MobileAds;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationCallback;
 import com.google.android.gms.location.LocationRequest;
@@ -76,6 +79,7 @@ public class MainActivity extends AppCompatActivity implements TaskRecycleAdapte
     LocalDateTime resumedTime;
     FusedLocationProviderClient locationProviderClient;
     Geocoder geocoder;
+    private AdView adView;
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
@@ -120,7 +124,8 @@ public class MainActivity extends AppCompatActivity implements TaskRecycleAdapte
 
         configPlugins(getApplication(), getApplicationContext());
         configureNotificationChannel();
-
+        MobileAds.initialize(getApplicationContext());
+        loadAd();
         registerWithFirebaseAndPinpoint();
         requestLocationPermissions();
         loadLocationProviderClient();
@@ -292,6 +297,11 @@ public class MainActivity extends AppCompatActivity implements TaskRecycleAdapte
 
     }
 
+    void loadAd(){
+        adView = findViewById(R.id.mainBottomBannerAdView);
+        AdRequest adRequest = new AdRequest.Builder().build();
+        adView.loadAd(adRequest);
+    }
 
 
 

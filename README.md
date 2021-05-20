@@ -5,9 +5,12 @@ An android app allowing you to add task from your everyday life.
 
 ## Author: Cristian Robles
 
-## Version 2.5.0
+## Version 2.6.0
 
 ## Change Log
+
+2.6.0- Now using Google AdMob for managing ads, the app will now show ads :) a banner in the main screen and
+a full add after a user finishes looking at a task!
 
 2.5.0- Now app requires location permission, this allows the user task to be added with their current location.
 This will show up in the task detail activity. Updated schema models with a locationCreation propertie now.
