@@ -12,7 +12,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="32dp"
-        android:layout_marginTop="32dp"
+        android:layout_marginTop="24dp"
         android:layout_marginEnd="40dp"
         android:background="@drawable/rectangle_for_main_task"
         android:backgroundTint="@color/testScheme"
@@ -25,7 +25,7 @@
         android:textSize="24sp"
         app:autoSizeTextType="uniform"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -52,8 +52,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toEndOf="@+id/goToAddFormButton"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.693" />
+        app:layout_constraintTop_toBottomOf="@+id/textViewMainMyTaskTitle" />
 
     <Button
         android:id="@+id/goToSettingsButton"
@@ -62,33 +61,32 @@
         android:backgroundTint="#3574E1"
         android:text="@string/setting"
         android:textColor="#4300FF"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/mainBottomBannerAdView"
         app:layout_constraintEnd_toEndOf="@+id/goToAllTaskButton"
-        app:layout_constraintHorizontal_bias="0.489"
+        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="@+id/goToAddFormButton"
-        app:layout_constraintTop_toBottomOf="@+id/goToAllTaskButton"
-        app:layout_constraintVertical_bias="0.252" />
+        app:layout_constraintTop_toBottomOf="@+id/goToAddFormButton" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/taskRecyclerViewMain"
         android:layout_width="wrap_content"
-        android:layout_height="275dp"
+        android:layout_height="0dp"
         app:layout_constraintBottom_toTopOf="@+id/goToAllTaskButton"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.497"
+        app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textViewMainMyTaskTitle"
-        app:layout_constraintVertical_bias="0.201" />
+        app:layout_constraintVertical_bias="0.508" />
 
     <com.google.android.gms.ads.AdView
         android:id="@+id/mainBottomBannerAdView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        app:adSize="LARGE_BANNER"
+        app:adUnitId="ca-app-pub-3940256099942544/6300978111"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/goToSettingsButton"
-        app:adSize="LARGE_BANNER"
-        app:adUnitId="ca-app-pub-3940256099942544/6300978111" />
+        app:layout_constraintTop_toBottomOf="@+id/goToSettingsButton" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
