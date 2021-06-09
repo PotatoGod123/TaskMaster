@@ -5,9 +5,11 @@ An android app allowing you to add task from your everyday life.
 
 ## Author: Cristian Robles
 
-## Version 2.6.0
+## Version 2.6.1
 
 ## Change Log
+
+2.6.1 - Ads now with new campigns! Up and running. Some minor tweaks to stability and performances as well!
 
 2.6.0- Now using Google AdMob for managing ads, the app will now show ads :) a banner in the main screen and
 a full add after a user finishes looking at a task!

@@ -94,12 +94,9 @@ public class TaskDetail extends AppCompatActivity {
 
 
     private void configureFullAdd(){
-        MobileAds.initialize(getApplicationContext(), new OnInitializationCompleteListener() {
-            @Override
-            public void onInitializationComplete(@NonNull InitializationStatus initializationStatus) {
-            }
+        MobileAds.initialize(getApplicationContext(), initializationStatus -> {
         });
-        String testAddString = "ca-app-pub-3940256099942544/1033173712";
+        String testAddString = "ca-app-pub-8077611097501749/6505059711";
         AdRequest adRequest = new AdRequest.Builder().build();
 
         InterstitialAd.load(getApplicationContext(), testAddString, adRequest, new InterstitialAdLoadCallback() {

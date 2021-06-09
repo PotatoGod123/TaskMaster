@@ -108,7 +108,10 @@ public class MainActivity extends AppCompatActivity implements TaskRecycleAdapte
                         }
 
 //                        Log.i(TAG,"This is the current team "+currentTeam.toString());
-                        helperQuery(currentTeam.getId());
+                        if(currentTeam!=null){
+                            helperQuery(currentTeam.getId());
+                        }
+
                         break;
                     }
 
